@@ -8,6 +8,8 @@ import com.group19.OrderManagementSystem_backend.repository.EmployeeRepository;
 import com.group19.OrderManagementSystem_backend.utils.ERole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
@@ -21,15 +23,14 @@ public class EmployeeService {
     @Autowired
     EmployeeMapper employeeMapper;
 
+
     public EmployeeResponse createEmployee(EmployeeRequest request) {
-//        Employee employee = new Employee();
-//        employee.setUsername(request.getUsername());
-//        employee.setPassword(request.getPassword());
-//        employee.setFullName(request.getFullName());
-//        employee.setRole(ERole.EMPLOYEE);
         if(employeeRepository.existsByUsername(request.getUsername()))
             throw new RuntimeException("Username already exists");
         Employee employee = employeeMapper.toEmployee(request);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        String encodedPassword =  passwordEncoder.encode(employee.getPassword());
+        employee.setPassword(encodedPassword);
         employee.setRole(ERole.EMPLOYEE.name());
         employeeRepository.save(employee);
         return employeeMapper.toEmployeeResponse(employee);

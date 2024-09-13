@@ -12,7 +12,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EmployeeMapper {
     Employee toEmployee(EmployeeRequest request);
-
     EmployeeResponse toEmployeeResponse(Employee employee);
     void updateEmployee(@MappingTarget Employee employee, EmployeeRequest request);
     List<EmployeeResponse> toListEmployeeResponse(List<Employee> employees);
