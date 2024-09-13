@@ -3,6 +3,8 @@ package com.group19.OrderManagementSystem_backend.service;
 import com.group19.OrderManagementSystem_backend.dto.request.EmployeeRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.EmployeeResponse;
 import com.group19.OrderManagementSystem_backend.entity.Employee;
+import com.group19.OrderManagementSystem_backend.exception.AppException;
+import com.group19.OrderManagementSystem_backend.exception.ErrorCode;
 import com.group19.OrderManagementSystem_backend.mapper.EmployeeMapper;
 import com.group19.OrderManagementSystem_backend.repository.EmployeeRepository;
 import com.group19.OrderManagementSystem_backend.utils.ERole;
@@ -26,7 +28,7 @@ public class EmployeeService {
 
     public EmployeeResponse createEmployee(EmployeeRequest request) {
         if(employeeRepository.existsByUsername(request.getUsername()))
-            throw new RuntimeException("Username already exists");
+            throw new AppException(ErrorCode.USER_EXITED);
         Employee employee = employeeMapper.toEmployee(request);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         String encodedPassword =  passwordEncoder.encode(employee.getPassword());
@@ -41,13 +43,12 @@ public class EmployeeService {
     }
 
     public EmployeeResponse updateEmployee(String employeeId, EmployeeRequest request) {
-        Employee employee =  employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("Employee not found"));
+        Employee employee =  employeeRepository.findById(employeeId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
         employeeMapper.updateEmployee(employee, request);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
 
     public void deleteEmployee(String employeeId) {
         employeeRepository.deleteById(employeeId);
-        log.info("Employee deleted successfully");
     }
 }
