@@ -11,7 +11,6 @@ import com.group19.OrderManagementSystem_backend.repository.EmployeeRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.experimental.NonFinal;
@@ -50,7 +49,7 @@ public class AuthenticationService {
     }
 
     private String generateToken(Employee employee) {
-        JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
+        JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(employee.getUsername())
