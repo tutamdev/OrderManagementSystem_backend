@@ -1,15 +1,19 @@
 package com.group19.OrderManagementSystem_backend.service;
 
 import com.group19.OrderManagementSystem_backend.dto.request.AuthenticationRequest;
+import com.group19.OrderManagementSystem_backend.dto.request.IntrospectRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.AuthenticationResponse;
+import com.group19.OrderManagementSystem_backend.dto.response.IntrospectResponse;
 import com.group19.OrderManagementSystem_backend.entity.Employee;
 import com.group19.OrderManagementSystem_backend.exception.AppException;
 import com.group19.OrderManagementSystem_backend.exception.ErrorCode;
 import com.group19.OrderManagementSystem_backend.repository.EmployeeRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -66,5 +71,21 @@ public class AuthenticationService {
             log.error("Khum tạo được Token!");
             throw new RuntimeException(e);
         }
+    }
+
+    public IntrospectResponse instrospect(IntrospectRequest request) throws JOSEException, ParseException {
+        String token = request.getToken();
+
+        JWSVerifier jwsVerifier = new MACVerifier(SIGNER_KEY.getBytes());
+
+        SignedJWT signedJWT = SignedJWT.parse(token);
+
+        Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        boolean isVerified = signedJWT.verify(jwsVerifier);
+
+        return IntrospectResponse.builder()
+                .isAuthenticated(isVerified && expirationTime.after(new Date()))
+                .build();
     }
 }
