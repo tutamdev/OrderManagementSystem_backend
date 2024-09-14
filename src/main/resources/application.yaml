@@ -16,5 +16,6 @@ spring:
       ddl-auto: update
     show-sql: true
 
-
+jwt:
+  private-key: ${SIGNER_KEY}
 
