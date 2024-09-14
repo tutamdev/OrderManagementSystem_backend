@@ -1,7 +1,6 @@
 package com.group19.OrderManagementSystem_backend.configuration;
 
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.crypto.MACSigner;
+import com.group19.OrderManagementSystem_backend.exception.AppException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-
 import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
@@ -20,7 +20,11 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINT = {
-            "/employees", "/auth/**"
+            "/employees", "/auth/**",
+    };
+
+    private final String[] ADMIN_ENDPOINT = {
+            "/employees"
     };
 
     @Bean
@@ -41,16 +45,29 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 );
 
-
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
+                .jwt(jwtConfigurer -> jwtConfigurer
+                                        .decoder(jwtDecoder())
+                                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        // bắt lỗi 401 vì không thể truy cập đến tầng GlobalException
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
 
         return httpSecurity.build();
     }
 
+    @Bean
+    JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        return converter;
+    }
+
     @Value("${jwt.private-key}")
     private String SIGNER_KEY;
+
     @Bean
     JwtDecoder jwtDecoder() {
         SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS512");
@@ -58,5 +75,5 @@ public class SecurityConfig {
                 .withSecretKey(secretKeySpec)
                 .macAlgorithm(MacAlgorithm.HS512)
                 .build();
-    }
+    };
 }

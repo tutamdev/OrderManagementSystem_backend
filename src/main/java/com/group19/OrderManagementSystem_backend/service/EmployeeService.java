@@ -43,7 +43,8 @@ public class EmployeeService {
     }
 
     public EmployeeResponse updateEmployee(String employeeId, EmployeeRequest request) {
-        Employee employee =  employeeRepository.findById(employeeId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
+        Employee employee =  employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
         employeeMapper.updateEmployee(employee, request);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }

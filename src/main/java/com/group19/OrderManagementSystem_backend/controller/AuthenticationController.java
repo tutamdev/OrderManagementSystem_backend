@@ -7,7 +7,9 @@ import com.group19.OrderManagementSystem_backend.dto.response.AuthenticationResp
 import com.group19.OrderManagementSystem_backend.dto.response.IntrospectResponse;
 import com.group19.OrderManagementSystem_backend.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
