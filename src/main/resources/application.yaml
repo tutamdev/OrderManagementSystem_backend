@@ -18,4 +18,6 @@ spring:
 
 jwt:
   private-key: ${SIGNER_KEY}
+  refresh-duration: 60 #second
+  refreshable-duration: 3
 

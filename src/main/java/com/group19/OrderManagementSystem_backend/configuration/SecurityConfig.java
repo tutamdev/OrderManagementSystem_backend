@@ -1,5 +1,6 @@
 package com.group19.OrderManagementSystem_backend.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,11 @@ import javax.crypto.spec.SecretKeySpec;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Value("${jwt.private-key}")
+    private String SIGNER_KEY;
+
+    @Autowired
+    private CustomJwtDecoder customJwtDecoder;
 
     private final String[] PUBLIC_ENDPOINT = {
             "/employees", "/auth/**",
@@ -46,7 +52,7 @@ public class SecurityConfig {
 
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwtConfigurer -> jwtConfigurer
-                                        .decoder(jwtDecoder())
+                                        .decoder(customJwtDecoder)
                                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 // bắt lỗi 401 vì không thể truy cập đến tầng GlobalException
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
@@ -65,16 +71,4 @@ public class SecurityConfig {
         converter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return converter;
     }
-
-    @Value("${jwt.private-key}")
-    private String SIGNER_KEY;
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    };
 }
