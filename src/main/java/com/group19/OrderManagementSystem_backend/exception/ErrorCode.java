@@ -12,7 +12,8 @@ public enum ErrorCode {
     PASSWORD_INVALID(1004, "Password is invalid", HttpStatus.BAD_REQUEST),
     USER_NOT_EXITED(1005, "User not exited", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
+    UNAUTHORIZED(1007, "Unauthorized", HttpStatus.FORBIDDEN),
+    DO_NOT_HAVE_PERMISSIONS(1008, "Do not have permissions", HttpStatus.FORBIDDEN),
     ;
     private int code;
     private String message;

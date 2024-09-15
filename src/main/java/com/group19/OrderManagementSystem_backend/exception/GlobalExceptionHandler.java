@@ -2,10 +2,9 @@ package com.group19.OrderManagementSystem_backend.exception;
 
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.sql.SQLException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -26,5 +25,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorCode.getStatusCode()).body(
                 ApiResponse.builder().code(errorCode.getCode())
                         .message(errorCode.getMessage()).build());
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    ResponseEntity<ApiResponse> handlingValidationException(MethodArgumentNotValidException e) {
+        ApiResponse apiResponse = new ApiResponse();
+        String emumKey = e.getFieldError().getDefaultMessage();
+        ErrorCode errorCode = ErrorCode.INVALID_MESSAGE_KEY;
+        try {
+            errorCode = ErrorCode.valueOf(emumKey);
+        } catch (IllegalArgumentException iae) {
+
+        }
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 }

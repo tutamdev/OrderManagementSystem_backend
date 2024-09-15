@@ -1,6 +1,5 @@
 package com.group19.OrderManagementSystem_backend.configuration;
 
-import com.group19.OrderManagementSystem_backend.exception.AppException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,8 +48,10 @@ public class SecurityConfig {
                 .jwt(jwtConfigurer -> jwtConfigurer
                                         .decoder(jwtDecoder())
                                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                        // bắt lỗi 401 vì không thể truy cập đến tầng GlobalException
-                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                // bắt lỗi 401 vì không thể truy cập đến tầng GlobalException
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                // Từ chối truy cập
+                .accessDeniedHandler(new JwtAuthenticationEntryPoint())
         );
 
         return httpSecurity.build();
