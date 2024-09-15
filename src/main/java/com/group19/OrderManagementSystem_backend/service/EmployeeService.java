@@ -10,6 +10,8 @@ import com.group19.OrderManagementSystem_backend.repository.EmployeeRepository;
 import com.group19.OrderManagementSystem_backend.utils.ERole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,5 +53,19 @@ public class EmployeeService {
 
     public void deleteEmployee(String employeeId) {
         employeeRepository.deleteById(employeeId);
+    }
+
+    public EmployeeResponse getEmployeeById(String employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
+        return employeeMapper.toEmployeeResponse(employee);
+    }
+
+    public EmployeeResponse getMyInfo() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        Employee employee = employeeRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
+        return employeeMapper.toEmployeeResponse(employee);
     }
 }

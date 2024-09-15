@@ -39,11 +39,26 @@ public class EmployeeController {
                 .build();
     }
 
+    @GetMapping("/{EmployeeId}")
+    public ApiResponse<EmployeeResponse> getEmployeeById(@PathVariable String EmployeeId) {
+        return ApiResponse.<EmployeeResponse>builder()
+                .result(employeeService.getEmployeeById(EmployeeId))
+                .build();
+    }
+
     @DeleteMapping("/{employeeId}")
     public ApiResponse<Void> deleteEmployee(@PathVariable("employeeId") String employeeId) {
         employeeService.deleteEmployee(employeeId);
         return ApiResponse.<Void>builder()
                 .message("OK")
                 .build();
+    }
+
+    @GetMapping("/info")
+    public ApiResponse<EmployeeResponse> getEmployeeInfo() {
+        return ApiResponse.<EmployeeResponse>builder()
+                .result(employeeService.getMyInfo())
+                .build();
+
     }
 }
