@@ -18,6 +18,9 @@ public enum ErrorCode {
     SHIFT_NOT_ACTIVE(1009, "Shift does not active", HttpStatus.BAD_REQUEST),
     SHIFT_NOT_EXITED(1010, "Shift not exited", HttpStatus.BAD_REQUEST),
     NO_ACTIVE_SHIFT(1011, "There are no active shifts", HttpStatus.BAD_REQUEST),
+    AREA_EXITED(1012, "Area exited", HttpStatus.BAD_REQUEST),
+    AREA_NOT_EXITED(1013, "Area not exited", HttpStatus.BAD_REQUEST),
+    TABLE_NOT_EXITED(1014, "Table exited", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;

@@ -1,6 +1,7 @@
 package com.group19.OrderManagementSystem_backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.sql.Time;
