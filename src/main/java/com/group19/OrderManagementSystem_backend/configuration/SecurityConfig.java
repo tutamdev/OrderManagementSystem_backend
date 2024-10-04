@@ -25,7 +25,7 @@ public class SecurityConfig {
     private CustomJwtDecoder customJwtDecoder;
 
     private final String[] PUBLIC_ENDPOINT = {
-            "/employees", "/auth/**",
+            "/employees", "/auth/**", "/shifts/**",
     };
 
     private final String[] ADMIN_ENDPOINT = {
@@ -44,7 +44,7 @@ public class SecurityConfig {
         httpSecurity.authorizeRequests(requests -> requests
                         // Cấu hình các endpoint không cần xác thực
                         .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
-
+                        .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
                         // Chỉ cho phép role EMPLOYEE truy cập các endpoint
 
                         // Chỉ cho phép role ADMIN truy cập các endpoint

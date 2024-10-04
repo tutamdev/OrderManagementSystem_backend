@@ -3,6 +3,7 @@ package com.group19.OrderManagementSystem_backend.configuration;
 import com.group19.OrderManagementSystem_backend.entity.Employee;
 import com.group19.OrderManagementSystem_backend.repository.EmployeeRepository;
 import com.group19.OrderManagementSystem_backend.utils.ERole;
+import com.group19.OrderManagementSystem_backend.utils.EmployeeStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,7 @@ public class ApplicationInitConfig {
                         .fullName("Administrator")
                         .username("admin")
                         .role(ERole.ADMIN.name())
+                        .status(EmployeeStatus.ACTIVE.name())
                         .password(passwordEncoder.encode("admin"))
                         .build();
                 employeeRepository.save(admin);

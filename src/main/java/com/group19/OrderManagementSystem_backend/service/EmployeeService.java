@@ -8,6 +8,7 @@ import com.group19.OrderManagementSystem_backend.exception.ErrorCode;
 import com.group19.OrderManagementSystem_backend.mapper.EmployeeMapper;
 import com.group19.OrderManagementSystem_backend.repository.EmployeeRepository;
 import com.group19.OrderManagementSystem_backend.utils.ERole;
+import com.group19.OrderManagementSystem_backend.utils.EmployeeStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
@@ -15,7 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
+
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class EmployeeService {
         String encodedPassword =  passwordEncoder.encode(employee.getPassword());
         employee.setPassword(encodedPassword);
         employee.setRole(ERole.EMPLOYEE.name());
+        employee.setStatus(EmployeeStatus.ACTIVE.name());
         employeeRepository.save(employee);
         return employeeMapper.toEmployeeResponse(employee);
     }
