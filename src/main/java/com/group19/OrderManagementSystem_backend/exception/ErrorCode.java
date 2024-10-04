@@ -14,6 +14,10 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "Unauthorized", HttpStatus.FORBIDDEN),
     DO_NOT_HAVE_PERMISSIONS(1008, "Do not have permissions", HttpStatus.FORBIDDEN),
+    SHIFT_ALREADY_ACTIVE(1008, "There is an active shift, you cannot create a new one.", HttpStatus.BAD_REQUEST),
+    SHIFT_NOT_ACTIVE(1009, "Shift does not active", HttpStatus.BAD_REQUEST),
+    SHIFT_NOT_EXITED(1010, "Shift not exited", HttpStatus.BAD_REQUEST),
+    NO_ACTIVE_SHIFT(1011, "There are no active shifts", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;
