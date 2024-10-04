@@ -1,6 +1,7 @@
 package com.group19.OrderManagementSystem_backend.service;
 
 import com.group19.OrderManagementSystem_backend.dto.request.TableRequest;
+import com.group19.OrderManagementSystem_backend.dto.response.AreaIdWithTablesResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.TableResponse;
 import com.group19.OrderManagementSystem_backend.entity.Area;
 import com.group19.OrderManagementSystem_backend.entity.Table;
@@ -12,6 +13,7 @@ import com.group19.OrderManagementSystem_backend.repository.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +28,20 @@ public class TableService {
     public List<TableResponse> getTablesByAreaId(String areaId) {
         List<Table> tables = tableRepository.findByArea_AreaIdOrderByTableNameAsc(areaId);
         return tableMapper.toListTableResponse(tables);
+    }
+
+    public List<AreaIdWithTablesResponse> getAllAreaIdWithTables() {
+        List<AreaIdWithTablesResponse> list = new ArrayList<>();
+        List<Area> areas = areaRepository.findAll();
+        for (Area area : areas) {
+            List<Table> tables = tableRepository.findByArea_AreaIdOrderByTableNameAsc(area.getAreaId());
+            AreaIdWithTablesResponse areaIdWithTablesResponse = AreaIdWithTablesResponse.builder()
+                    .areaId(area.getAreaId())
+                    .tables(tableMapper.toListTableResponse(tables))
+                    .build();
+            list.add(areaIdWithTablesResponse);
+        }
+        return list;
     }
 
     public List<TableResponse> createTableByAreaId(String areaId, TableRequest tableRequest) {
