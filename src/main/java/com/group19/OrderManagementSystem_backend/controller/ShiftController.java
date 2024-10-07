@@ -25,9 +25,9 @@ public class ShiftController {
     }
 
     @PostMapping("")
-    public ApiResponse<ShiftResponse> createShift(@RequestBody ShiftRequest shiftRequest) {
+    public ApiResponse<ShiftResponse> createShift() {
         return ApiResponse.<ShiftResponse>builder()
-                .result(shiftService.createShift(shiftRequest))
+                .result(shiftService.createShift())
                 .build();
     }
 

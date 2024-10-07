@@ -37,6 +37,7 @@ public class TableService {
             List<Table> tables = tableRepository.findByArea_AreaIdOrderByTableNameAsc(area.getAreaId());
             AreaIdWithTablesResponse areaIdWithTablesResponse = AreaIdWithTablesResponse.builder()
                     .areaId(area.getAreaId())
+                    .areaName(area.getAreaName())
                     .tables(tableMapper.toListTableResponse(tables))
                     .build();
             list.add(areaIdWithTablesResponse);

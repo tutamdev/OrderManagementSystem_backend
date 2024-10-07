@@ -11,9 +11,6 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class ShiftRequest {
-    private LocalDate date;
-    private LocalTime startTime;
 }

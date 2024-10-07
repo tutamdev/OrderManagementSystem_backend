@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class AreaIdWithTablesResponse {
-    String areaId;
-    List<TableResponse> tables;
+    private String areaId;
+    private String areaName;
+    private List<TableResponse> tables;
 }

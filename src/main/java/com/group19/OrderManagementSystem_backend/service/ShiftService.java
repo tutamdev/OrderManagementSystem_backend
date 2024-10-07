@@ -22,7 +22,7 @@ public class ShiftService {
     private ShiftMapper shiftMapper;
 
     public List<ShiftResponse> findAllShiftByDate(ShiftRequest shiftRequest) {
-        List<Shift> shifts = shiftRepository.findAllByDate(shiftRequest.getDate());
+        List<Shift> shifts = shiftRepository.findAllByDate(LocalDate.now());
         return shiftMapper.toListShiftResponse(shifts);
     }
 
@@ -31,13 +31,13 @@ public class ShiftService {
         return shiftMapper.toListShiftResponse(shifts);
     }
 
-    public ShiftResponse createShift(ShiftRequest shiftRequest) {
-        List<Shift> shifts = shiftRepository.findByDateAndIsEnabledTrue(shiftRequest.getDate());
+    public ShiftResponse createShift() {
+        List<Shift> shifts = shiftRepository.findByDateAndIsEnabledTrue(LocalDate.now());
         if (shifts.size() > 0)
             throw new AppException(ErrorCode.SHIFT_ALREADY_ACTIVE);
         Shift shift = Shift.builder()
-                .date(shiftRequest.getDate())
-                .startTime(shiftRequest.getStartTime())
+                .date(LocalDate.now())
+                .startTime(LocalTime.now())
                 .endTime(null)
                 .isEnabled(true)
                 .build();
