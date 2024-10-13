@@ -8,6 +8,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,4 +25,10 @@ public class Shift {
     private LocalTime startTime;
     private LocalTime endTime;
     private boolean isEnabled;
+    
+    @OneToMany(
+            mappedBy = "shift",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<Order> orders;
 }
