@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.management.relation.Role;
 
@@ -20,7 +21,7 @@ import javax.management.relation.Role;
 public class Order {
 	@Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private String order_id;
 	
 	@Column(name="note")
 	private String note;
@@ -37,4 +38,14 @@ public class Order {
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Employee employee;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shiftId")
+    private Shift shift;
+	
+	@OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<Order_detail> order_details;
 }
