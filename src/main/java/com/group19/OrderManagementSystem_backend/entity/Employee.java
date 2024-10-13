@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.util.List;
+
 import javax.management.relation.Role;
 
 @Entity
@@ -30,4 +32,10 @@ public class Employee {
 
     private String role;
     private String status;
+    
+    @OneToMany(
+            mappedBy = "employee",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<Order> orders;
 }
