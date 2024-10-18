@@ -21,6 +21,15 @@ public enum ErrorCode {
     AREA_EXITED(1012, "Area exited", HttpStatus.BAD_REQUEST),
     AREA_NOT_EXITED(1013, "Area not exited", HttpStatus.BAD_REQUEST),
     TABLE_NOT_EXITED(1014, "Table exited", HttpStatus.BAD_REQUEST),
+
+    // Thêm mã lỗi cho Order
+    ORDER_NOT_FOUND(1016, "Order not found", HttpStatus.NOT_FOUND),
+    ORDER_ALREADY_EXISTS(1017, "Order already exists", HttpStatus.BAD_REQUEST),
+
+    // Thêm mã lỗi cho OrderDetail
+    ORDER_DETAIL_NOT_FOUND(1018, "Order detail not found", HttpStatus.NOT_FOUND),
+    ORDER_DETAIL_ALREADY_EXISTS(1019, "Order detail already exists", HttpStatus.BAD_REQUEST);
+
     ;
     private int code;
     private String message;
