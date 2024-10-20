@@ -12,5 +12,5 @@ import com.group19.OrderManagementSystem_backend.entity.Order_detail_ID;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository<Order_detail, Order_detail_ID> {
-	List<Order_detail> findByOrder(String order_id);
+	//List<Order_detail> findByOrder(String order_id);
 }

@@ -21,3 +21,4 @@ jwt:
   refresh-duration: 60 #second
   refreshable-duration: 3
 
+#  DATABASE_PASSWORD=123456;DATABASE_URL=jdbc:mysql://localhost:3306/order_management_system;DATABASE_USERNAME=root;PORT=8080;SIGNER_KEY="Re3QAHfhwRQNtfD4EKANXhQ04rlnt0BJWoibO8z71BgMoecOwptbU3LOaVicfnQk"

@@ -36,12 +36,20 @@ public class Order {
 	private LocalTime ended_at;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "employee_id")
     private Employee employee;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="tableId")
+	private com.group19.OrderManagementSystem_backend.entity.Table table;
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shiftId")
     private Shift shift;
+
+	@OneToOne(optional = true, fetch = FetchType.LAZY)
+	@JoinColumn(name="discountCode")
+	private Discount discount;
 	
 	@OneToMany(
             mappedBy = "order",
