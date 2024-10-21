@@ -3,7 +3,7 @@ package com.group19.OrderManagementSystem_backend.controller;
 import com.group19.OrderManagementSystem_backend.dto.request.OrderDetailRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.OrderDetailResponse;
-import com.group19.OrderManagementSystem_backend.entity.Order_detail_ID;
+import com.group19.OrderManagementSystem_backend.entity.OrderDetailId;
 import com.group19.OrderManagementSystem_backend.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class OrderDetailController {
     }
 
     @PutMapping("/{orderDetailId}")
-    public ApiResponse<OrderDetailResponse> updateOrderDetail(@PathVariable("orderDetailId") Order_detail_ID orderDetailId, @RequestBody OrderDetailRequest orderDetailRequest) {
+    public ApiResponse<OrderDetailResponse> updateOrderDetail(@PathVariable("orderDetailId") OrderDetailId orderDetailId, @RequestBody OrderDetailRequest orderDetailRequest) {
         return ApiResponse.<OrderDetailResponse>builder()
                 .result(orderDetailService.updateOrderDetail(orderDetailId, orderDetailRequest))
                 .message("Order detail updated successfully")
@@ -42,7 +42,7 @@ public class OrderDetailController {
     }
 
     @DeleteMapping("/{orderDetailId}")
-    public ApiResponse<Void> deleteOrderDetail(@PathVariable("orderDetailId") Order_detail_ID orderDetailId) {
+    public ApiResponse<Void> deleteOrderDetail(@PathVariable("orderDetailId") OrderDetailId orderDetailId) {
         orderDetailService.deleteOrderDetail(orderDetailId);
         return ApiResponse.<Void>builder()
                 .message("Order detail deleted successfully")

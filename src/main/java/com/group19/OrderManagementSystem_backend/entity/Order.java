@@ -21,19 +21,19 @@ import javax.management.relation.Role;
 public class Order {
 	@Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String order_id;
+    private String orderId;
 	
 	@Column(name="note")
 	private String note;
 	
 	@Column(name ="total_price")
-	private double total_price;
+	private double totalPrice;
 	
 	@Column(name ="created_at")
-	private LocalTime created_at;
+	private LocalTime createdAt;
 	
 	@Column(name ="end_at")
-	private LocalTime ended_at;
+	private LocalTime endedAt;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
@@ -47,5 +47,5 @@ public class Order {
             mappedBy = "order",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    private List<Order_detail> order_details;
+    private List<OrderDetail> orderDetails;
 }

@@ -13,12 +13,12 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "tbl_order_detail")
 
-public class Order_detail {
+public class OrderDetail {
 	@EmbeddedId
-	private Order_detail_ID order_detail_id;
+	private OrderDetailId order_detail_id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("order_id")
+    @MapsId("orderId")
     @JoinColumn(name = "order_id")
     private Order order;
 	
@@ -26,5 +26,5 @@ public class Order_detail {
 	private int quantity;
 	
 	@Column(name="food_note")
-	private String food_note;	
+	private String foodNote;
 }

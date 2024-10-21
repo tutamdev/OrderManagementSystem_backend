@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.group19.OrderManagementSystem_backend.entity.Order;
-import com.group19.OrderManagementSystem_backend.entity.Order_detail;
-import com.group19.OrderManagementSystem_backend.entity.Order_detail_ID;
+import com.group19.OrderManagementSystem_backend.entity.OrderDetail;
+import com.group19.OrderManagementSystem_backend.entity.OrderDetailId;
 
 @Repository
-public interface OrderDetailRepository extends JpaRepository<Order_detail, Order_detail_ID> {
+public interface OrderDetailRepository extends JpaRepository<OrderDetail, OrderDetailId> {
 
-	List<Order_detail> findByOrder(Order order);
-	List<Order_detail> findByOrder_OrderId(String order_id);
+	List<OrderDetail> findByOrder(Order order);
+	List<OrderDetail> findByOrder_OrderId(String orderId);
 }

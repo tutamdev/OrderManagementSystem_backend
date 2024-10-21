@@ -3,8 +3,8 @@ package com.group19.OrderManagementSystem_backend.service;
 import com.group19.OrderManagementSystem_backend.dto.request.OrderDetailRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.OrderDetailResponse;
 import com.group19.OrderManagementSystem_backend.entity.Order;
-import com.group19.OrderManagementSystem_backend.entity.Order_detail;
-import com.group19.OrderManagementSystem_backend.entity.Order_detail_ID;
+import com.group19.OrderManagementSystem_backend.entity.OrderDetail;
+import com.group19.OrderManagementSystem_backend.entity.OrderDetailId;
 import com.group19.OrderManagementSystem_backend.exception.AppException;
 import com.group19.OrderManagementSystem_backend.exception.ErrorCode;
 import com.group19.OrderManagementSystem_backend.mapper.OrderDetailMapper;
@@ -28,10 +28,10 @@ public class OrderDetailService {
     private OrderDetailMapper orderDetailMapper;
 
     public OrderDetailResponse createOrderDetail(OrderDetailRequest request) {
-        Order order = orderRepository.findById(request.getOrder_id())
+        Order order = orderRepository.findById(request.getOrderId())
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND)); // Thay đổi theo logic của bạn
 
-        Order_detail orderDetail = orderDetailMapper.toOrderDetail(request, order);
+        OrderDetail orderDetail = orderDetailMapper.toOrderDetail(request, order);
         orderDetailRepository.save(orderDetail);
         return orderDetailMapper.toOrderDetailResponse(orderDetail);
     }
@@ -41,20 +41,20 @@ public class OrderDetailService {
         Order order = orderRepository.findById(order_id)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
 
-        List<Order_detail> orderDetails = orderDetailRepository.findByOrder_OrderId(order_id);
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrder_OrderId(order_id);
         return orderDetailMapper.toListOrderDetailResponse(orderDetails);
     }
 
-    public OrderDetailResponse updateOrderDetail(Order_detail_ID orderDetailId, OrderDetailRequest request) {
-        Order_detail orderDetail = orderDetailRepository.findById(orderDetailId)
+    public OrderDetailResponse updateOrderDetail(OrderDetailId orderDetailId, OrderDetailRequest request) {
+        OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_DETAIL_NOT_FOUND));
 
         orderDetailMapper.updateOrderDetail(orderDetail, request);
-        Order_detail updatedOrderDetail = orderDetailRepository.save(orderDetail);
+        OrderDetail updatedOrderDetail = orderDetailRepository.save(orderDetail);
         return orderDetailMapper.toOrderDetailResponse(updatedOrderDetail);
     }
 
-    public void deleteOrderDetail(Order_detail_ID orderDetailId) {
+    public void deleteOrderDetail(OrderDetailId orderDetailId) {
         orderDetailRepository.deleteById(orderDetailId);
     }
 }

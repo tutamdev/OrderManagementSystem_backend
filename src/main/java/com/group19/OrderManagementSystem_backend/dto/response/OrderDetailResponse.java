@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class OrderDetailResponse {
     private String orderDetailId; // ID của Order Detail
-    private String order_id; // ID của Order
+    private String orderId; // ID của Order
     private int quantity;
     private String foodNote; // Ghi chú về món ăn
 }
