@@ -9,5 +9,5 @@ import lombok.*;
 @Builder
 public class CategoryResponse {
     private String categoryId;
-    private String categoryName;
+    private String name;
 }

@@ -38,7 +38,7 @@ public class FoodService {
     public FoodResponse createFood(FoodRequest request) {
         var food = foodMapper.toFood(request);
 
-         var category = categoryRepository.findById(request.getCategory())
+         var category = categoryRepository.findByName(request.getCategory())
                 .orElseThrow(()-> new AppException(ErrorCode.CATEGORY_NOT_EXITED));
         food.setCategory(category );
 

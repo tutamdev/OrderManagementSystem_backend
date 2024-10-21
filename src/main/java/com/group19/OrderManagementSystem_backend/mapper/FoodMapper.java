@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {CategoryMapper.class})
 public abstract class FoodMapper {
 
     @Autowired
@@ -34,7 +34,7 @@ public abstract class FoodMapper {
 
     @Named("mapStringToCategory")
     public Category mapStringToCategory(String categoryName) {
-        return categoryRepository.findById(categoryName)
+        return categoryRepository.findByName(categoryName)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXITED));
     }
 }
