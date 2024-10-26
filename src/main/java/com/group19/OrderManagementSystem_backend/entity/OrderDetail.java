@@ -1,6 +1,5 @@
 package com.group19.OrderManagementSystem_backend.entity;
 
-import com.group19.OrderManagementSystem_backend.utils.ERole;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -13,18 +12,23 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "tbl_order_detail")
 
-public class Order_detail {
+public class OrderDetail {
 	@EmbeddedId
-	private Order_detail_ID order_detail_id;
+	private OrderDetailKey id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("order_id")
+    @MapsId("orderId")
     @JoinColumn(name = "order_id")
     private Order order;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("foodId")
+	@JoinColumn(name = "food_id")
+	private Food food;
+
 	@Column(name="quantity")
 	private int quantity;
 	
 	@Column(name="food_note")
-	private String food_note;	
+	private String foodNote;
 }

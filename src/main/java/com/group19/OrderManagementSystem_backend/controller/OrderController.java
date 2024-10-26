@@ -1,5 +1,6 @@
 package com.group19.OrderManagementSystem_backend.controller;
 
+import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import com.group19.OrderManagementSystem_backend.entity.Order;
 import com.group19.OrderManagementSystem_backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +21,26 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
-        return orderService.getOrderById(id)
-                .map(order -> ResponseEntity.ok(order))
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{orderId}")
+    public ApiResponse<Order> getOrderById(@PathVariable String orderId) {
+        Order order = orderService.getOrderById(orderId);
+        return ApiResponse.<Order>builder()
+                .result(order)
+                .build();
     }
 
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.saveOrder(order);
+    public ApiResponse<Order> createOrder(@RequestBody Order order) {
+        return ApiResponse.<Order>builder()
+                .result(orderService.saveOrder(order))
+                .build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable String id) {
+    public ApiResponse<Void> deleteOrder(@PathVariable String id) {
         orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+        return ApiResponse.<Void>builder()
+                .message("Order xóa thành công")
+                .build();
     }
 }

@@ -2,6 +2,8 @@ package com.group19.OrderManagementSystem_backend.service;
 
 import com.group19.OrderManagementSystem_backend.entity.Employee;
 import com.group19.OrderManagementSystem_backend.entity.Order;
+import com.group19.OrderManagementSystem_backend.exception.AppException;
+import com.group19.OrderManagementSystem_backend.exception.ErrorCode;
 import com.group19.OrderManagementSystem_backend.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,9 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Optional<Order> getOrderById(String id) {
-        return orderRepository.findById(id);
+    public Order getOrderById(String id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_EXITED));
     }
 
     public Order saveOrder(Order order) {

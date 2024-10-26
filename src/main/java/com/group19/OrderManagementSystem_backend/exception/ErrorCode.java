@@ -21,6 +21,11 @@ public enum ErrorCode {
     AREA_EXITED(1012, "Area exited", HttpStatus.BAD_REQUEST),
     AREA_NOT_EXITED(1013, "Area not exited", HttpStatus.BAD_REQUEST),
     TABLE_NOT_EXITED(1014, "Table exited", HttpStatus.BAD_REQUEST),
+
+    // Luc nao sua lai code nhe, moi entity minh cho mot status code rieng
+    // vi du: Emloyee 1xxx, Order 2xxx, OrderDetail 3xxx gi do nha
+
+    ORDER_NOT_EXITED(2001, "Order not exited", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;
