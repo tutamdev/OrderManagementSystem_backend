@@ -1,7 +1,9 @@
 package com.group19.OrderManagementSystem_backend.controller;
 
-import com.group19.OrderManagementSystem_backend.entity.Order_detail;
-import com.group19.OrderManagementSystem_backend.entity.Order_detail_ID;
+import com.group19.OrderManagementSystem_backend.dto.request.OrderDetailRequest;
+import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
+import com.group19.OrderManagementSystem_backend.dto.response.OrderDetailResponse;
+import com.group19.OrderManagementSystem_backend.entity.OrderDetailKey;
 import com.group19.OrderManagementSystem_backend.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,28 +18,35 @@ public class OrderDetailController {
     @Autowired
     private OrderDetailService orderDetailService;
 
-    @GetMapping
-    public List<Order_detail> getAllOrderDetails() {
-        return orderDetailService.getAllOrderDetails();
+    @PostMapping("")
+    public ApiResponse<OrderDetailResponse> createOrderDetail(@RequestBody OrderDetailRequest orderDetailRequest) {
+        return ApiResponse.<OrderDetailResponse>builder()
+                .result(orderDetailService.createOrderDetail(orderDetailRequest))
+                .message("Order detail created successfully")
+                .build();
     }
 
-    @GetMapping("/{orderId}/{productId}")
-    public ResponseEntity<Order_detail> getOrderDetailById(@PathVariable("orderId") String orderId, @PathVariable("productId") String productId) {
-        Order_detail_ID id = new Order_detail_ID(orderId, productId);
-        return orderDetailService.getOrderDetailById(id)
-                .map(orderDetail -> ResponseEntity.ok(orderDetail))
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/order/{order_id}")
+    public ApiResponse<List<OrderDetailResponse>> getOrderDetailsByOrderId(@PathVariable("order_id") String order_id) {
+        return ApiResponse.<List<OrderDetailResponse>>builder()
+                .result(orderDetailService.getOrderDetailsByOrderId(order_id))
+                .message("Successfully retrieved order details")
+                .build();
     }
 
-    @PostMapping
-    public Order_detail createOrderDetail(@RequestBody Order_detail orderDetail) {
-        return orderDetailService.saveOrderDetail(orderDetail);
+    @PutMapping("/{orderDetailId}")
+    public ApiResponse<OrderDetailResponse> updateOrderDetail(@PathVariable("orderDetailId") OrderDetailKey orderDetailId, @RequestBody OrderDetailRequest orderDetailRequest) {
+        return ApiResponse.<OrderDetailResponse>builder()
+                .result(orderDetailService.updateOrderDetail(orderDetailId, orderDetailRequest))
+                .message("Order detail updated successfully")
+                .build();
     }
 
-    @DeleteMapping("/{orderId}/{productId}")
-    public ResponseEntity<Void> deleteOrderDetail(@PathVariable("orderId") String orderId, @PathVariable("productId") String productId) {
-        Order_detail_ID id = new Order_detail_ID(orderId, productId);
-        orderDetailService.deleteOrderDetail(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{orderDetailId}")
+    public ApiResponse<Void> deleteOrderDetail(@PathVariable("orderDetailId") OrderDetailKey orderDetailId) {
+        orderDetailService.deleteOrderDetail(orderDetailId);
+        return ApiResponse.<Void>builder()
+                .message("Order detail deleted successfully")
+                .build();
     }
 }

@@ -25,7 +25,7 @@ public class SecurityConfig {
     private CustomJwtDecoder customJwtDecoder;
 
     private final String[] PUBLIC_ENDPOINT = {
-            "/employees", "/auth/**", "/shifts/**",
+            "/auth/**",
     };
 
     private final String[] ADMIN_ENDPOINT = {
@@ -52,7 +52,6 @@ public class SecurityConfig {
                         // Các request còn lại cần phải xác thực
                         .anyRequest().authenticated()
                 );
-
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwtConfigurer -> jwtConfigurer
                                         .decoder(customJwtDecoder)
@@ -69,7 +68,7 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Địa chỉ frontend
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Địa chỉ frontend
         corsConfiguration.setAllowedMethods(Arrays.asList("*"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setAllowCredentials(true);
