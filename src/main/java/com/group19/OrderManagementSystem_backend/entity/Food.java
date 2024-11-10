@@ -22,7 +22,7 @@ public class Food {
     private String foodName;
 
     @Column(name = "food_price")
-    private String foodPrice;
+    private long foodPrice;
 
     @Column(name = "description")
     private String description;
@@ -39,4 +39,8 @@ public class Food {
             fetch = FetchType.LAZY
     )
     private List<OrderDetail> orderDetails;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

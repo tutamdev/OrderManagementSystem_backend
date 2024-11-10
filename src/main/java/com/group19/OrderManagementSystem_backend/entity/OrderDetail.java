@@ -1,5 +1,6 @@
 package com.group19.OrderManagementSystem_backend.entity;
 
+import com.group19.OrderManagementSystem_backend.utils.ERole;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
