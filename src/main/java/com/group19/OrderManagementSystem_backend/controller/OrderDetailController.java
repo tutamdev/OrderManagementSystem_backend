@@ -1,7 +1,8 @@
 package com.group19.OrderManagementSystem_backend.controller;
 
+import com.group19.OrderManagementSystem_backend.dto.request.OrderDetailRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
-import com.group19.OrderManagementSystem_backend.entity.OrderDetail;
+import com.group19.OrderManagementSystem_backend.dto.response.OrderDetailResponse;
 import com.group19.OrderManagementSystem_backend.entity.OrderDetailKey;
 import com.group19.OrderManagementSystem_backend.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,40 +18,35 @@ public class OrderDetailController {
     @Autowired
     private OrderDetailService orderDetailService;
 
-    @GetMapping
-    public ApiResponse<List<OrderDetail>> getAllOrderDetails() {
-        return ApiResponse.<List<OrderDetail>>builder()
-                .result(orderDetailService.getAllOrderDetails())
+    @PostMapping("")
+    public ApiResponse<OrderDetailResponse> createOrderDetail(@RequestBody OrderDetailRequest orderDetailRequest) {
+        return ApiResponse.<OrderDetailResponse>builder()
+                .result(orderDetailService.createOrderDetail(orderDetailRequest))
+                .message("Order detail created successfully")
                 .build();
     }
 
-    @GetMapping("/{orderId}/{foodId}")
-    public ApiResponse<OrderDetail> getOrderDetailById(@PathVariable("orderId") String orderId, @PathVariable("foodId") String foodId) {
-        OrderDetailKey id = OrderDetailKey.builder()
-                .orderId(orderId)
-                .foodId(foodId)
-                .build();
-        return ApiResponse.<OrderDetail>builder()
-                .result(orderDetailService.getOrderDetailById(id))
+    @GetMapping("/order/{order_id}")
+    public ApiResponse<List<OrderDetailResponse>> getOrderDetailsByOrderId(@PathVariable("order_id") String order_id) {
+        return ApiResponse.<List<OrderDetailResponse>>builder()
+                .result(orderDetailService.getOrderDetailsByOrderId(order_id))
+                .message("Successfully retrieved order details")
                 .build();
     }
 
-    @PostMapping
-    public ApiResponse<OrderDetail> createOrderDetail(@RequestBody OrderDetail orderDetail) {
-        return ApiResponse.<OrderDetail>builder()
-                .result(orderDetailService.saveOrderDetail(orderDetail))
+    @PutMapping("/{orderDetailId}")
+    public ApiResponse<OrderDetailResponse> updateOrderDetail(@PathVariable("orderDetailId") OrderDetailKey orderDetailId, @RequestBody OrderDetailRequest orderDetailRequest) {
+        return ApiResponse.<OrderDetailResponse>builder()
+                .result(orderDetailService.updateOrderDetail(orderDetailId, orderDetailRequest))
+                .message("Order detail updated successfully")
                 .build();
     }
 
-    @DeleteMapping("/{orderId}/{foodId}")
-    public ApiResponse<Void> deleteOrderDetail(@PathVariable("orderId") String orderId, @PathVariable("foodId") String foodId) {
-        OrderDetailKey id = OrderDetailKey.builder()
-                .orderId(orderId)
-                .foodId(foodId)
-                .build();
-        orderDetailService.deleteOrderDetail(id);
+    @DeleteMapping("/{orderDetailId}")
+    public ApiResponse<Void> deleteOrderDetail(@PathVariable("orderDetailId") OrderDetailKey orderDetailId) {
+        orderDetailService.deleteOrderDetail(orderDetailId);
         return ApiResponse.<Void>builder()
-                .message("OrderDetail deleted")
+                .message("Order detail deleted successfully")
                 .build();
     }
 }
