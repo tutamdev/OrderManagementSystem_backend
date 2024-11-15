@@ -35,8 +35,8 @@ public class CategoryService {
         return categoryMapper.toListCategoryResponses(categories);
     }
 
-    public CategoryResponse updateCategory(String name, CategoryRequest request) {
-        Category category = categoryRepository.findByName(name)
+    public CategoryResponse updateCategory(String categoryID, CategoryRequest request) {
+        Category category = categoryRepository.findById(categoryID)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_EXITED));
         categoryMapper.updateCategory(category, request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));

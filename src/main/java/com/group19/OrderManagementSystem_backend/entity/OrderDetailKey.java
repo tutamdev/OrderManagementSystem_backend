@@ -5,12 +5,12 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Builder
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDetailKey implements Serializable {
     @Column(name = "order_id")
 	private String orderId;
