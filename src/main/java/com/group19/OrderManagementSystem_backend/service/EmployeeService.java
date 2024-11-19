@@ -1,6 +1,7 @@
 package com.group19.OrderManagementSystem_backend.service;
 
 import com.group19.OrderManagementSystem_backend.dto.request.EmployeeRequest;
+import com.group19.OrderManagementSystem_backend.dto.request.EmployeeUpdateRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.EmployeeResponse;
 import com.group19.OrderManagementSystem_backend.entity.Employee;
 import com.group19.OrderManagementSystem_backend.exception.AppException;
@@ -46,7 +47,7 @@ public class EmployeeService {
         return employeeMapper.toListEmployeeResponse(employeeRepository.findAll());
     }
 
-    public EmployeeResponse updateEmployee(String employeeId, EmployeeRequest request) {
+    public EmployeeResponse updateEmployee(String employeeId, EmployeeUpdateRequest request) {
         Employee employee =  employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
         employeeMapper.updateEmployee(employee, request);
