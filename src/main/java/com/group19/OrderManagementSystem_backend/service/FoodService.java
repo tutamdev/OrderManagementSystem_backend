@@ -51,6 +51,11 @@ public class FoodService {
         return foodMapper.toListFoodResponse(foods);
     }
 
+    public List<FoodResponse> getAllFoodsByCategoryId(String categoryId) {
+        List<Food> foods = foodRepository.findAllByCategory_CategoryId(categoryId);
+        return foodMapper.toListFoodResponse(foods);
+    }
+
     public FoodResponse updateFood(String foodId, FoodRequest foodRequest) {
         Food food = foodRepository.findById(foodId)
                 .orElseThrow(() -> new AppException(ErrorCode.FOOD_NOT_EXITED));

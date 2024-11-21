@@ -34,6 +34,14 @@ public class FoodController {
                 .build();
     }
 
+    @GetMapping("/{categoryId}")
+    public ApiResponse<List<FoodResponse>> getAllFoodsByCategoryId(@PathVariable String categoryId) {
+        return ApiResponse.<List<FoodResponse>>builder()
+                .result(foodService.getAllFoodsByCategoryId(categoryId))
+                .message("Successfully retrieved all foods")
+                .build();
+    }
+
     @PutMapping("/{foodId}")
     public ApiResponse<FoodResponse> updateFood(@PathVariable("foodId") String foodId, @RequestBody FoodRequest request) {
         return ApiResponse.<FoodResponse>builder()

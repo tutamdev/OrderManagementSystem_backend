@@ -12,7 +12,7 @@ public class FoodResponse {
     private String foodName;
     private long foodPrice;
     private String description;
-    private String imgUrl;
+    private String imageUrl;
     private boolean availability;
     private CategoryResponse category;
 }
