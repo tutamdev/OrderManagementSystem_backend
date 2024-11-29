@@ -35,6 +35,24 @@ public class OrderController {
                 .build();
     }
 
+    // Lấy danh sách tất cả các Order theo ShiftId
+    @GetMapping("/shift/{shiftId}")
+    public ApiResponse<List<OrderResponse>> getAllOrderByShiftId(@PathVariable String shiftId) {
+        return ApiResponse.<List<OrderResponse>>builder()
+                .result(orderService.getAllOrderByShiftId(shiftId))
+                .message("Successfully retrieved all orders")
+                .build();
+    }
+
+    // Hoan thanh order
+    @PostMapping("/{orderId}/complete")
+    public ApiResponse<OrderResponse> createOrder(@PathVariable String orderId) {
+        return ApiResponse.<OrderResponse>builder()
+                .result(orderService.completeOrder(orderId))
+                .message("Order created successfully")
+                .build();
+    }
+
     // Cập nhật Order theo ID
     @PutMapping("/{order_id}")
     public ApiResponse<OrderResponse> updateOrder(

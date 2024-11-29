@@ -8,8 +8,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetailResponse {
-    private String orderDetailId; // ID của Order Detail
-    private String orderId; // ID của Order
+//    private String orderDetailId; // ID của Order Detail
+//    private String orderId; // ID của Order
+//    private int quantity;
+//    private String foodNote; // Ghi chú về món ăn
+    private String orderId;
+    private String foodId;
     private int quantity;
-    private String foodNote; // Ghi chú về món ăn
+    private String foodNote;
 }

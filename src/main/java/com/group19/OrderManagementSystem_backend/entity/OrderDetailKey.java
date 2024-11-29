@@ -11,6 +11,8 @@ import lombok.*;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class OrderDetailKey implements Serializable {
     @Column(name = "order_id")
 	private String orderId;

@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface FoodRepository extends JpaRepository<Food,String> {
     boolean existsByFoodName(String foodName);
     Optional<Food> findByFoodName(String foodName);
-
+    Optional<Food> findByFoodId(String foodId);
     List<Food> findAllByCategory_CategoryId(String categoryId);
 }

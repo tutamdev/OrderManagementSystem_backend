@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface OrderRepository extends JpaRepository<Order, String> {
 	
 	List<Order> findByEmployee_Id(String id);//tìm theo người tạo
-	
+
+    List<Order> findAllByShift_ShiftId(String shiftId);
 }

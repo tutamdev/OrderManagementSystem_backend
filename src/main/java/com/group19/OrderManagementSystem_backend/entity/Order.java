@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -27,10 +28,10 @@ public class Order {
 	private double totalPrice;
 	
 	@Column(name ="created_at")
-	private LocalTime createdAt;
+	private LocalDateTime createdAt;
 	
 	@Column(name ="end_at")
-	private LocalTime endedAt;
+	private LocalDateTime endedAt;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")

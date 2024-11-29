@@ -9,7 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 public class OrderRequest {
     private String note;
-    private double totalPrice;
-    private String Id;//id của employee
+//    private double totalPrice;
+    private String employeeId;//id của employee
     private String shiftId;
+    private String tableId;
+//    private String discountCode;
 }

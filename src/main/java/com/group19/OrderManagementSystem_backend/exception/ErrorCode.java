@@ -33,10 +33,10 @@ public enum ErrorCode {
     // Thêm mã lỗi cho OrderDetail
     ORDER_DETAIL_NOT_FOUND(1021, "Order detail not found", HttpStatus.NOT_FOUND),
     ORDER_DETAIL_ALREADY_EXISTS(1022, "Order detail already exists", HttpStatus.BAD_REQUEST),
-
+    ORDER_COMPLETED(1023, "Order completed", HttpStatus.BAD_REQUEST),
     // Luc nao sua lai code nhe, moi entity minh cho mot status code rieng
     // vi du: Emloyee 1xxx, Order 2xxx, OrderDetail 3xxx gi do nha
-
+    FOOD_UNAVAILABLE(1024, "Food unavailable", HttpStatus.NOT_FOUND),
     ORDER_NOT_EXITED(2001, "Order not exited", HttpStatus.BAD_REQUEST),
     ;
     private int code;

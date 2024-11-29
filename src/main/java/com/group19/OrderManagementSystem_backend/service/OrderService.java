@@ -2,16 +2,16 @@ package com.group19.OrderManagementSystem_backend.service;
 
 import com.group19.OrderManagementSystem_backend.dto.request.OrderRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.OrderResponse;
-import com.group19.OrderManagementSystem_backend.entity.Order;
-import com.group19.OrderManagementSystem_backend.entity.Employee;
+import com.group19.OrderManagementSystem_backend.entity.*;
 import com.group19.OrderManagementSystem_backend.exception.AppException;
 import com.group19.OrderManagementSystem_backend.exception.ErrorCode;
 import com.group19.OrderManagementSystem_backend.mapper.OrderMapper;
-import com.group19.OrderManagementSystem_backend.repository.OrderRepository;
-import com.group19.OrderManagementSystem_backend.repository.EmployeeRepository; // Thêm import này
+import com.group19.OrderManagementSystem_backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -24,24 +24,60 @@ public class OrderService {
     private EmployeeRepository employeeRepository;
 
     @Autowired
+    private ShiftRepository shiftRepository;
+
+    @Autowired
+    private TableRepository tableRepository;
+
+    @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private DiscountRepository discountRepository;
 
     public OrderResponse createOrder(OrderRequest request) {
         // Tìm Employee theo employeeId
-        Employee employee = employeeRepository.findById(request.getId())
+        Employee employee = employeeRepository.findById(request.getEmployeeId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
 
-        // Tạo Order từ request
-        Order order = orderMapper.toOrder(request);
-        order.setEmployee(employee); // Thiết lập employee cho order
+        Shift shift = shiftRepository.findByShiftId(request.getShiftId())
+                .orElseThrow(() -> new AppException(ErrorCode.SHIFT_NOT_EXITED));
 
+        Table table = tableRepository.findById(request.getTableId())
+                .orElseThrow(() -> new AppException(ErrorCode.TABLE_NOT_EXITED));
+//        Discount discount = discountRepository.findDiscountByDiscountCode(request.getDiscountCode());
+//        Discount discount = discountRepository.findDiscountByDiscountCode(request.getDiscountCode());
+        // Tạo Order từ request
+//        Order order = orderMapper.toOrder(request);
+        Order order = Order.builder()
+                .employee(employee)
+                .shift(shift)
+                .table(table)
+                .createdAt(LocalDateTime.now())
+                .note(request.getNote())
+//                .discount(discount)
+                .build();
         // Lưu Order
+        Order savedOrder = orderRepository.save(order);
+        return orderMapper.toOrderResponse(savedOrder);
+    }
+
+    public OrderResponse completeOrder(String orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_EXITED));
+        if (order.getEndedAt() != null) throw new AppException(ErrorCode.ORDER_COMPLETED);
+        order.setEndedAt(LocalDateTime.now());
+        // tính total price
         Order savedOrder = orderRepository.save(order);
         return orderMapper.toOrderResponse(savedOrder);
     }
 
     public List<OrderResponse> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
+        return orderMapper.toListOrderResponse(orders);
+    }
+
+    public List<OrderResponse> getAllOrderByShiftId(String shiftId) {
+        List<Order> orders = orderRepository.findAllByShift_ShiftId(shiftId);
         return orderMapper.toListOrderResponse(orders);
     }
 
