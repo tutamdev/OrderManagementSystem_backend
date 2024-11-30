@@ -12,11 +12,12 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class OrderResponse {
     private String orderId;
+    private String employeeId;
     private String note;
     private double totalPrice;
     private LocalDateTime createdAt;
     private LocalDateTime endedAt;
-    private String employeeId;
     private String shiftId;
-//    private String discountCode;
+    private String discountCode;
+    private double discountValue;
 }

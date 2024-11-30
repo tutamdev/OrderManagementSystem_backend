@@ -45,8 +45,8 @@ public class Order {
     @JoinColumn(name = "shiftId")
     private Shift shift;
 
-	@OneToOne(optional = true, fetch = FetchType.LAZY)
-	@JoinColumn(name="discountCode")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "discount_code", referencedColumnName = "discountCode")
 	private Discount discount;
 	
 	@OneToMany(

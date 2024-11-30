@@ -38,7 +38,7 @@ public class EmployeeService {
         String encodedPassword =  passwordEncoder.encode(employee.getPassword());
         employee.setPassword(encodedPassword);
         employee.setRole(ERole.EMPLOYEE.name());
-        employee.setStatus(EmployeeStatus.ACTIVE.name());
+        employee.setStatus(EmployeeStatus.INACTIVE.name());
         employeeRepository.save(employee);
         return employeeMapper.toEmployeeResponse(employee);
     }

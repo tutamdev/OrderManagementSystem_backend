@@ -7,9 +7,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderRequest {
-    private String note;
-    private String employeeId;
-    private String tableId;
+public class DiscountRequest {
     private String discountCode;
+    private String discountType;
+    private double discountValue;
+    private boolean status;
 }

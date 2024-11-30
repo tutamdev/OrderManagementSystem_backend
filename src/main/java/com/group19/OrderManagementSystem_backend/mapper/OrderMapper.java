@@ -29,7 +29,7 @@ public interface OrderMapper {
                 .endedAt(order.getEndedAt())
                 .totalPrice(order.getTotalPrice())
                 .employeeId(order.getEmployee().getId())
-//                .discountCode(order.getDiscount().getDiscountCode())
+                .discountCode(order.getDiscount().getDiscountCode())
                 .build();
 
         return response;

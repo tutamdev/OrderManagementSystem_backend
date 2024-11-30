@@ -37,6 +37,8 @@ public enum ErrorCode {
     // Luc nao sua lai code nhe, moi entity minh cho mot status code rieng
     // vi du: Emloyee 1xxx, Order 2xxx, OrderDetail 3xxx gi do nha
     FOOD_UNAVAILABLE(1024, "Food unavailable", HttpStatus.NOT_FOUND),
+    TABLE_UNAVAILABLE(1025, "Table unavailable", HttpStatus.NOT_FOUND),
+    DISCOUNT_EXITED(1026, "Discount exited", HttpStatus.BAD_REQUEST),
     ORDER_NOT_EXITED(2001, "Order not exited", HttpStatus.BAD_REQUEST),
     ;
     private int code;
