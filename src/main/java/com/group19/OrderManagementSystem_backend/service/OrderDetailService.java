@@ -170,23 +170,6 @@ public class OrderDetailService {
         return totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP); // Làm tròn đến 2 chữ số thập phân
     }
 
-//    public BigDecimal calculateTotalPriceFood(String orderId) {
-//        BigDecimal totalPrice = BigDecimal.ZERO;
-//        // Lấy danh sách các OrderDetail hiện có
-//        List<OrderDetail> existingDetails = orderDetailRepository.findByOrder_OrderId(orderId);
-//
-//        if (existingDetails != null) {
-//            existingDetails.forEach(orderDetail -> {
-//               if (orderDetail != null && orderDetail.getFood() != null) {
-//                   Food food = orderDetail.getFood();
-//                   BigDecimal foodPrice = food.getFoodPrice();
-//                   int quantity = orderDetail.getQuantity();
-//                   totalPrice = totalPrice.add(foodPrice.multiply(BigDecimal.valueOf(quantity)));
-//               }
-//            });
-//        }
-//    }
-
     public void deleteOrderDetail(OrderDetailKey orderDetailId) {
         orderDetailRepository.deleteById(orderDetailId);
     }
