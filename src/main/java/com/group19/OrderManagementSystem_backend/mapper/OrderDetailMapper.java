@@ -30,6 +30,8 @@ public interface OrderDetailMapper {
                 .foodId(orderDetail.getId().getFoodId())
                 .quantity(orderDetail.getQuantity())
                 .foodNote(orderDetail.getFoodNote())
+                .foodName(orderDetail.getFood().getFoodName())
+                .foodPrice(orderDetail.getFood().getFoodPrice())
                 .build();
         return response;
     }
