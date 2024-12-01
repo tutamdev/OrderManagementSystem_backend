@@ -51,8 +51,12 @@ public class OrderService {
 
         Table table = tableRepository.findById(request.getTableId())
                 .orElseThrow(() -> new AppException(ErrorCode.TABLE_NOT_EXITED));
+        Discount discount = null;
+        if (request.getDiscountCode() != null && !request.getDiscountCode().isEmpty()) {
+            discount = discountRepository.findDiscountByDiscountCodeAndStatusIsTrue(request.getDiscountCode())
+                    .orElseThrow(() -> new AppException(ErrorCode.DISCOUNT_NOT_EXITED));
+        }
         log.info(request.getDiscountCode());
-        Discount discount = discountRepository.findDiscountByDiscountCode(request.getDiscountCode());
 
         // Nếu table trống thì mới cho đặt -> cập nhật trạng thái table <Làm sau>
         if (!Objects.equals(table.getStatus(), TableStatus.AVAILABLE.name()))
@@ -87,7 +91,12 @@ public class OrderService {
         order.setTable(table);
         table.setStatus(TableStatus.UNAVAILABLE.name());
         tableRepository.save(table);
-
+        Discount discount = null;
+        if (request.getDiscountCode() != null && !request.getDiscountCode().isEmpty()) {
+            discount = discountRepository.findDiscountByDiscountCodeAndStatusIsTrue(request.getDiscountCode())
+                    .orElseThrow(() -> new AppException(ErrorCode.DISCOUNT_NOT_EXITED));
+        }
+        order.setDiscount(discount);
         order.setNote(request.getNote());
         // Lưu lại Order đã cập nhật
         return orderMapper.toOrderResponse(orderRepository.save(order));
@@ -109,8 +118,8 @@ public class OrderService {
         if (order.getDiscount() == null) discountValue = 0;
         else if (Objects.equals(order.getDiscount().getDiscountType(), DiscountType.FIXED.name()))
             discountValue = order.getDiscount().getDiscountValue();
-        else discountValue = (totalPrice * order.getDiscount().getDiscountValue())/100;
-
+        else if (Objects.equals(order.getDiscount().getDiscountType(), DiscountType.PERCENT.name()))
+            discountValue = (totalPrice * order.getDiscount().getDiscountValue())/100;
         Order savedOrder = orderRepository.save(order);
 
         // Cập nhật trạng thái bàn ăn
@@ -129,6 +138,16 @@ public class OrderService {
 
     public List<OrderResponse> getAllOrderByShiftId(String shiftId) {
         List<Order> orders = orderRepository.findAllByShift_ShiftId(shiftId);
+        return orderMapper.toListOrderResponse(orders);
+    }
+
+    public OrderResponse getOrderByOrderId(String orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+        return orderMapper.toOrderResponse(order);
+    }
+
+    public List<OrderResponse> getAllOrderByShiftIdCompleted(String shiftId) {
+        List<Order> orders = orderRepository.findAllByShift_ShiftIdAndEndedAtIsNotNull(shiftId);
         return orderMapper.toListOrderResponse(orders);
     }
 

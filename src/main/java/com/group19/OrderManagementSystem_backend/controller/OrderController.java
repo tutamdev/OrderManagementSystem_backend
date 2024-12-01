@@ -34,12 +34,29 @@ public class OrderController {
                 .message("Successfully retrieved all orders")
                 .build();
     }
+    // Tạo mới Order
+    @GetMapping("/{orderId}")
+    public ApiResponse<OrderResponse> getOrderByOrderId(@PathVariable String orderId) {
+        return ApiResponse.<OrderResponse>builder()
+                .result(orderService.getOrderByOrderId(orderId))
+                .message("Order created successfully")
+                .build();
+    }
+
 
     // Lấy danh sách tất cả các Order theo ShiftId
     @GetMapping("/shift/{shiftId}")
     public ApiResponse<List<OrderResponse>> getAllOrderByShiftId(@PathVariable String shiftId) {
         return ApiResponse.<List<OrderResponse>>builder()
                 .result(orderService.getAllOrderByShiftId(shiftId))
+                .message("Successfully retrieved all orders")
+                .build();
+    }
+
+    @GetMapping("/shift/{shiftId}/complete")
+    public ApiResponse<List<OrderResponse>> getAllOrderByShiftIdCompleted(@PathVariable String shiftId) {
+        return ApiResponse.<List<OrderResponse>>builder()
+                .result(orderService.getAllOrderByShiftIdCompleted(shiftId))
                 .message("Successfully retrieved all orders")
                 .build();
     }
@@ -54,12 +71,12 @@ public class OrderController {
     }
 
     // Cập nhật Order theo ID
-    @PutMapping("/{order_id}")
+    @PutMapping("/{orderId}")
     public ApiResponse<OrderResponse> updateOrder(
-            @PathVariable String order_id,
+            @PathVariable String orderId,
             @RequestBody OrderRequest orderRequest) {
         return ApiResponse.<OrderResponse>builder()
-                .result(orderService.updateOrder(order_id, orderRequest))
+                .result(orderService.updateOrder(orderId, orderRequest))
                 .message("Order updated successfully")
                 .build();
     }

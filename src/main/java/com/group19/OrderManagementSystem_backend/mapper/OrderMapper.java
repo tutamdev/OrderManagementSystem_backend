@@ -24,12 +24,17 @@ public interface OrderMapper {
         OrderResponse response = OrderResponse.builder()
                 .orderId(order.getOrderId())
                 .shiftId(order.getShift().getShiftId())
+                .areaId(order.getTable().getTableId())
+                .areaName(order.getTable().getArea().getAreaName())
+                .tableId(order.getTable().getTableId())
+                .tableName(order.getTable().getTableName())
                 .note(order.getNote())
                 .createdAt(order.getCreatedAt())
                 .endedAt(order.getEndedAt())
                 .totalPrice(order.getTotalPrice())
                 .employeeId(order.getEmployee().getId())
-                .discountCode(order.getDiscount().getDiscountCode())
+                .employeeName(order.getEmployee().getFullName())
+                .discountCode(order.getDiscount() != null ? order.getDiscount().getDiscountCode() : null)
                 .build();
 
         return response;
