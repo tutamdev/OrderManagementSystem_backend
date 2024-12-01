@@ -3,10 +3,13 @@ package com.group19.OrderManagementSystem_backend.service;
 import com.group19.OrderManagementSystem_backend.dto.request.ShiftRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ShiftResponse;
 import com.group19.OrderManagementSystem_backend.entity.Shift;
+import com.group19.OrderManagementSystem_backend.entity.Table;
 import com.group19.OrderManagementSystem_backend.exception.AppException;
 import com.group19.OrderManagementSystem_backend.exception.ErrorCode;
 import com.group19.OrderManagementSystem_backend.mapper.ShiftMapper;
 import com.group19.OrderManagementSystem_backend.repository.ShiftRepository;
+import com.group19.OrderManagementSystem_backend.repository.TableRepository;
+import com.group19.OrderManagementSystem_backend.utils.TableStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ public class ShiftService {
     private ShiftRepository shiftRepository;
     @Autowired
     private ShiftMapper shiftMapper;
+    @Autowired
+    private TableRepository tableRepository;
 
     public List<ShiftResponse> findAllShiftByDate(ShiftRequest shiftRequest) {
         List<Shift> shifts = shiftRepository.findAllByDate(LocalDate.now());
@@ -55,6 +60,13 @@ public class ShiftService {
                 .orElseThrow(()-> new AppException(ErrorCode.SHIFT_NOT_EXITED));
         shift.setEnabled(false);
         shift.setEndTime(LocalTime.now());
+        List<Table> tables = tableRepository.findAll();
+        for (Table table : tables) {
+            if(table.getStatus().equals(TableStatus.UNAVAILABLE.name())) {
+                table.setStatus(TableStatus.AVAILABLE.name());
+            }
+        }
+        tableRepository.saveAll(tables);
         shiftRepository.save(shift);
         return shiftMapper.toShiftResponse(shift);
     }
