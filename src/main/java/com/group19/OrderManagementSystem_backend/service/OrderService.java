@@ -83,6 +83,7 @@ public class OrderService {
     public OrderResponse updateOrder(String orderId, OrderRequest request) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+        if (order.getEndedAt() != null) throw new AppException(ErrorCode.ORDER_COMPLETED);
         // Employee tạo order sẽ không được cập nhật mới, chỉ note được cập nhật
         // Cập nhật Order
         Table table = tableRepository.findById(request.getTableId())
