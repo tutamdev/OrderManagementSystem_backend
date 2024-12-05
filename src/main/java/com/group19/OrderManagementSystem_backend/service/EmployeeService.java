@@ -2,6 +2,7 @@ package com.group19.OrderManagementSystem_backend.service;
 
 import com.group19.OrderManagementSystem_backend.dto.request.EmployeeRequest;
 import com.group19.OrderManagementSystem_backend.dto.request.EmployeeUpdateRequest;
+import com.group19.OrderManagementSystem_backend.dto.request.EmployeeUpdateWithPasswordRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.EmployeeResponse;
 import com.group19.OrderManagementSystem_backend.entity.Employee;
 import com.group19.OrderManagementSystem_backend.exception.AppException;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.EnumUtils;
 
 
 import java.util.List;
@@ -69,6 +71,35 @@ public class EmployeeService {
         String username = context.getAuthentication().getName();
         Employee employee = employeeRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
+        return employeeMapper.toEmployeeResponse(employee);
+    }
+
+    public boolean isValidEnum(String value, Class<? extends Enum> enumClass) {
+        try {
+            Enum.valueOf(enumClass, value);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    public EmployeeResponse updateEmployeeInfoWithPassword(EmployeeUpdateWithPasswordRequest request) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        Employee employee = employeeRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        if(passwordEncoder.matches(request.getOldPassword(), employee.getPassword())) {
+            if (!isValidEnum(request.getRole(), ERole.class))
+                throw new AppException(ErrorCode.ROLE_NOT_MATCHED);
+            if (!isValidEnum(request.getStatus(), EmployeeStatus.class))
+                throw new AppException(ErrorCode.STATUS_NOT_MATCHED);
+            employee.setFullName(request.getFullName());
+            employee.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            employee.setRole(request.getRole());
+            employee.setStatus(request.getStatus());
+            employeeRepository.save(employee);
+        } else throw new AppException(ErrorCode.PASSWORD_NOT_MATCHED);
         return employeeMapper.toEmployeeResponse(employee);
     }
 }

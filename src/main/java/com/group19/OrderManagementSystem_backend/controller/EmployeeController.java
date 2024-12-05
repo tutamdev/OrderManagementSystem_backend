@@ -2,6 +2,7 @@ package com.group19.OrderManagementSystem_backend.controller;
 
 import com.group19.OrderManagementSystem_backend.dto.request.EmployeeRequest;
 import com.group19.OrderManagementSystem_backend.dto.request.EmployeeUpdateRequest;
+import com.group19.OrderManagementSystem_backend.dto.request.EmployeeUpdateWithPasswordRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.EmployeeResponse;
 import com.group19.OrderManagementSystem_backend.entity.Employee;
@@ -60,6 +61,11 @@ public class EmployeeController {
         return ApiResponse.<EmployeeResponse>builder()
                 .result(employeeService.getMyInfo())
                 .build();
-
+    }
+    @PutMapping("/info")
+    public ApiResponse<EmployeeResponse> updateEmployeeInfoWithPassword(@RequestBody EmployeeUpdateWithPasswordRequest request) {
+        return ApiResponse.<EmployeeResponse>builder()
+                .result(employeeService.updateEmployeeInfoWithPassword(request))
+                .build();
     }
 }
