@@ -15,4 +15,6 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     List<Order> findAllByShift_ShiftId(String shiftId);
 
     List<Order> findAllByShift_ShiftIdAndEndedAtIsNotNull(String shiftId);
+
+    Order findOrdersByTable_TableIdAndShift_ShiftIdAndEndedAtIsNull(String tableId, String shiftId);
 }

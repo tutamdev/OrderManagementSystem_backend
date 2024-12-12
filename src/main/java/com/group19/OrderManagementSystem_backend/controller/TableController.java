@@ -3,6 +3,7 @@ package com.group19.OrderManagementSystem_backend.controller;
 import com.group19.OrderManagementSystem_backend.dto.request.TableRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.AreaIdWithTablesResponse;
+import com.group19.OrderManagementSystem_backend.dto.response.OrderResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.TableResponse;
 import com.group19.OrderManagementSystem_backend.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,13 @@ public class TableController {
         List<TableResponse> tables = tableService.getTablesByAreaId(areaId);
         return ApiResponse.<List<TableResponse>>builder()
                 .result(tables)
+                .build();
+    }
+
+    @GetMapping("/{tableId}/order")
+    public ApiResponse<OrderResponse> getOrderNotCompleteByTableId(@PathVariable("tableId") String tableId) {
+        return ApiResponse.<OrderResponse>builder()
+                .result(tableService.getOrderNotCompleteByTableId(tableId))
                 .build();
     }
 
