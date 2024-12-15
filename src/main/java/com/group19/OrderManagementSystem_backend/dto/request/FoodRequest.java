@@ -2,8 +2,6 @@ package com.group19.OrderManagementSystem_backend.dto.request;
 
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder

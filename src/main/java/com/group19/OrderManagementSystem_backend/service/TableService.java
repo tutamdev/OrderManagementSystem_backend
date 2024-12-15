@@ -83,7 +83,7 @@ public class TableService {
         Table table = tableRepository.findById(tableId)
                 .orElseThrow(() -> new AppException(ErrorCode.TABLE_NOT_EXITED));
         Shift shift = shiftRepository.findByIsEnabledTrue()
-                .orElseThrow(()-> new AppException(ErrorCode.NO_ACTIVE_SHIFT));
+                .orElseThrow(() -> new AppException(ErrorCode.NO_ACTIVE_SHIFT));
         Order order = orderRepository.findOrdersByTable_TableIdAndShift_ShiftIdAndEndedAtIsNull(tableId, shift.getShiftId());
         return orderMapper.toOrderResponse(order);
     }

@@ -6,7 +6,6 @@ import com.group19.OrderManagementSystem_backend.dto.response.OrderDetailRespons
 import com.group19.OrderManagementSystem_backend.entity.OrderDetailKey;
 import com.group19.OrderManagementSystem_backend.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +18,9 @@ public class OrderDetailController {
     private OrderDetailService orderDetailService;
 
     @PostMapping("/{orderId}")
-    public ApiResponse<List<OrderDetailResponse>> createOrderDetail(@PathVariable String orderId,@RequestBody List<OrderDetailRequest> orderDetailRequest) {
+    public ApiResponse<List<OrderDetailResponse>> createOrderDetail(@PathVariable String orderId, @RequestBody List<OrderDetailRequest> orderDetailRequest) {
         return ApiResponse.<List<OrderDetailResponse>>builder()
-                .result(orderDetailService.createOrderDetail(orderId,orderDetailRequest))
+                .result(orderDetailService.createOrderDetail(orderId, orderDetailRequest))
                 .message("Order detail created successfully")
                 .build();
     }

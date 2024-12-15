@@ -1,9 +1,7 @@
 package com.group19.OrderManagementSystem_backend.controller;
 
-import com.group19.OrderManagementSystem_backend.dto.request.ShiftRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.ShiftResponse;
-import com.group19.OrderManagementSystem_backend.entity.Shift;
 import com.group19.OrderManagementSystem_backend.service.ShiftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +37,7 @@ public class ShiftController {
     }
 
     @GetMapping("/{date}")
-    public ApiResponse<List<ShiftResponse>> getListShiftsByDate(@PathVariable("date") LocalDate date ) {
+    public ApiResponse<List<ShiftResponse>> getListShiftsByDate(@PathVariable("date") LocalDate date) {
         return ApiResponse.<List<ShiftResponse>>builder()
                 .result(shiftService.findShiftByDate(date))
                 .build();

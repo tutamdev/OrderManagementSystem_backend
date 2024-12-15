@@ -13,24 +13,21 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Value("${jwt.private-key}")
-    private String SIGNER_KEY;
-
-    @Autowired
-    private CustomJwtDecoder customJwtDecoder;
-
     private final String[] PUBLIC_ENDPOINT = {
             "/auth/**",
     };
-
     private final String[] ADMIN_ENDPOINT = {
             "/employees"
     };
+    @Value("${jwt.private-key}")
+    private String SIGNER_KEY;
+    @Autowired
+    private CustomJwtDecoder customJwtDecoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -42,20 +39,20 @@ public class SecurityConfig {
 
         // Cấu hình endpoint
         httpSecurity.authorizeRequests(requests -> requests
-                        // Cấu hình các endpoint không cần xác thực
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
-                        .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
-                        // Chỉ cho phép role EMPLOYEE truy cập các endpoint
+                // Cấu hình các endpoint không cần xác thực
+                .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
+                .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
+                // Chỉ cho phép role EMPLOYEE truy cập các endpoint
 
-                        // Chỉ cho phép role ADMIN truy cập các endpoint
+                // Chỉ cho phép role ADMIN truy cập các endpoint
 
-                        // Các request còn lại cần phải xác thực
-                        .anyRequest().authenticated()
-                );
+                // Các request còn lại cần phải xác thực
+                .anyRequest().authenticated()
+        );
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwtConfigurer -> jwtConfigurer
-                                        .decoder(customJwtDecoder)
-                                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .decoder(customJwtDecoder)
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 // bắt lỗi 401 vì không thể truy cập đến tầng GlobalException
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 // Từ chối truy cập
@@ -68,15 +65,16 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Địa chỉ frontend
-        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
-        corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173")); // Địa chỉ frontend
+        corsConfiguration.setAllowedMethods(List.of("*"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
+
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();

@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,7 +59,7 @@ public class OrderService {
 
         // Nếu table trống thì mới cho đặt -> cập nhật trạng thái table <Làm sau>
         if (!Objects.equals(table.getStatus(), TableStatus.AVAILABLE.name()))
-            throw  new AppException(ErrorCode.TABLE_UNAVAILABLE);
+            throw new AppException(ErrorCode.TABLE_UNAVAILABLE);
 
         Order order = Order.builder()
                 .employee(employee)
@@ -120,7 +119,7 @@ public class OrderService {
         else if (Objects.equals(order.getDiscount().getDiscountType(), DiscountType.FIXED.name()))
             discountValue = order.getDiscount().getDiscountValue();
         else if (Objects.equals(order.getDiscount().getDiscountType(), DiscountType.PERCENT.name()))
-            discountValue = (totalPrice * order.getDiscount().getDiscountValue())/100;
+            discountValue = (totalPrice * order.getDiscount().getDiscountValue()) / 100;
         Order savedOrder = orderRepository.save(order);
 
         // Cập nhật trạng thái bàn ăn
@@ -151,7 +150,6 @@ public class OrderService {
         List<Order> orders = orderRepository.findAllByShift_ShiftIdAndEndedAtIsNotNull(shiftId);
         return orderMapper.toListOrderResponse(orders);
     }
-
 
 
     public void deleteOrder(String orderId) {

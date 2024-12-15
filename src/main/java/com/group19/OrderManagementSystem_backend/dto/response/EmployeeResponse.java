@@ -1,9 +1,6 @@
 package com.group19.OrderManagementSystem_backend.dto.response;
 
-import com.group19.OrderManagementSystem_backend.utils.ERole;
 import lombok.*;
-
-import javax.management.relation.Role;
 
 @Getter
 @Setter

@@ -20,7 +20,7 @@ public class DiscountService {
     private DiscountMapper discountMapper;
 
     public DiscountResponse createDiscount(DiscountRequest discountRequest) {
-        if(discountRepository.existsById(discountRequest.getDiscountCode()))
+        if (discountRepository.existsById(discountRequest.getDiscountCode()))
             throw new AppException(ErrorCode.DISCOUNT_EXITED);
         Discount discount = discountRepository.save(discountMapper.toDiscount(discountRequest));
         return discountMapper.toDiscountResponse(discount);

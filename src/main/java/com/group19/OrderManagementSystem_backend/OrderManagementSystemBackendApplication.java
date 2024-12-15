@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OrderManagementSystemBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OrderManagementSystemBackendApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(OrderManagementSystemBackendApplication.class, args);
+    }
 
 }

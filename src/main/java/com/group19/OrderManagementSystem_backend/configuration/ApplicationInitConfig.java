@@ -18,7 +18,7 @@ public class ApplicationInitConfig {
     @Bean
     ApplicationRunner applicationRunner(EmployeeRepository employeeRepository) {
         return args -> {
-            if(employeeRepository.findByUsername("admin").isEmpty()) {
+            if (employeeRepository.findByUsername("admin").isEmpty()) {
                 PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
                 Employee admin = Employee.builder()
                         .fullName("Administrator")

@@ -21,7 +21,7 @@ public class AreaService {
     AreaMapper areaMapper;
 
     public AreaResponse createArea(AreaRequest request) {
-        if(areaRepository.existsByAreaName(request.getAreaName()))
+        if (areaRepository.existsByAreaName(request.getAreaName()))
             throw new AppException(ErrorCode.AREA_EXITED);
         Area area = areaRepository.save(areaMapper.toArea(request));
         return areaMapper.toAreaResponse(area);

@@ -39,6 +39,7 @@ public class TableController {
                 .result(tables)
                 .build();
     }
+
     @PostMapping("/area/{areaId}")
     public ApiResponse<List<TableResponse>> createTableByAreaId(@PathVariable("areaId") String areaId, @RequestBody TableRequest tableRequest) {
         List<TableResponse> tables = tableService.createTableByAreaId(areaId, tableRequest);

@@ -5,7 +5,6 @@ import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.OrderResponse;
 import com.group19.OrderManagementSystem_backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +33,7 @@ public class OrderController {
                 .message("Successfully retrieved all orders")
                 .build();
     }
+
     // Tạo mới Order
     @GetMapping("/{orderId}")
     public ApiResponse<OrderResponse> getOrderByOrderId(@PathVariable String orderId) {
@@ -63,7 +63,7 @@ public class OrderController {
 
     // Hoan thanh order
     @PostMapping("/{orderId}/complete")
-    public ApiResponse<OrderResponse> createOrder(@PathVariable String orderId) {
+    public ApiResponse<OrderResponse> completeOrder(@PathVariable String orderId) {
         return ApiResponse.<OrderResponse>builder()
                 .result(orderService.completeOrder(orderId))
                 .message("Order created successfully")

@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DiscountMapper {
     Discount toDiscount(DiscountRequest discountRequest);
+
     DiscountResponse toDiscountResponse(Discount discount);
+
     List<DiscountResponse> toDiscountResponseList(List<Discount> discountList);
 }

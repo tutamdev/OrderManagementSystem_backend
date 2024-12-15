@@ -57,12 +57,12 @@ public class ShiftService {
 
     public ShiftResponse closeShift(String shiftId) {
         Shift shift = shiftRepository.findByShiftId(shiftId)
-                .orElseThrow(()-> new AppException(ErrorCode.SHIFT_NOT_EXITED));
+                .orElseThrow(() -> new AppException(ErrorCode.SHIFT_NOT_EXITED));
         shift.setEnabled(false);
         shift.setEndTime(LocalTime.now());
         List<Table> tables = tableRepository.findAll();
         for (Table table : tables) {
-            if(table.getStatus().equals(TableStatus.UNAVAILABLE.name())) {
+            if (table.getStatus().equals(TableStatus.UNAVAILABLE.name())) {
                 table.setStatus(TableStatus.AVAILABLE.name());
             }
         }
@@ -73,7 +73,7 @@ public class ShiftService {
 
     public ShiftResponse findShiftByIsEnabled() {
         Shift shift = shiftRepository.findByIsEnabledTrue()
-                .orElseThrow(()-> new AppException(ErrorCode.NO_ACTIVE_SHIFT));
+                .orElseThrow(() -> new AppException(ErrorCode.NO_ACTIVE_SHIFT));
         return shiftMapper.toShiftResponse(shift);
     }
 }

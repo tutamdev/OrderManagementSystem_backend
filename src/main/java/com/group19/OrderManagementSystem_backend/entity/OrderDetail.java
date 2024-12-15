@@ -1,8 +1,7 @@
 package com.group19.OrderManagementSystem_backend.entity;
 
-import com.group19.OrderManagementSystem_backend.utils.ERole;
-import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -14,22 +13,22 @@ import lombok.*;
 @Table(name = "tbl_order_detail")
 
 public class OrderDetail {
-	@EmbeddedId
-	private OrderDetailKey id;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+    @EmbeddedId
+    private OrderDetailKey id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("orderId")
     @JoinColumn(name = "order_id")
     private Order order;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("foodId")
-	@JoinColumn(name = "food_id")
-	private Food food;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("foodId")
+    @JoinColumn(name = "food_id")
+    private Food food;
 
-	@Column(name="quantity")
-	private int quantity;
-	
-	@Column(name="food_note")
-	private String foodNote;
+    @Column(name = "quantity")
+    private int quantity;
+
+    @Column(name = "food_note")
+    private String foodNote;
 }

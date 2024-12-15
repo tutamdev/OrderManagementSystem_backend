@@ -5,7 +5,6 @@ import com.group19.OrderManagementSystem_backend.dto.request.EmployeeUpdateReque
 import com.group19.OrderManagementSystem_backend.dto.request.EmployeeUpdateWithPasswordRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.EmployeeResponse;
-import com.group19.OrderManagementSystem_backend.entity.Employee;
 import com.group19.OrderManagementSystem_backend.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +61,7 @@ public class EmployeeController {
                 .result(employeeService.getMyInfo())
                 .build();
     }
+
     @PutMapping("/info")
     public ApiResponse<EmployeeResponse> updateEmployeeInfoWithPassword(@RequestBody EmployeeUpdateWithPasswordRequest request) {
         return ApiResponse.<EmployeeResponse>builder()

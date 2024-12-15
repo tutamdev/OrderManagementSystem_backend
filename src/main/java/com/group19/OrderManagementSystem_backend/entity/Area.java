@@ -1,7 +1,6 @@
 package com.group19.OrderManagementSystem_backend.entity;
 
 
-
 import jakarta.persistence.*;
 import lombok.*;
 

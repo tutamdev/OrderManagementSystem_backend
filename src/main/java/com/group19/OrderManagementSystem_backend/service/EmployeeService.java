@@ -18,8 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.util.EnumUtils;
-
 
 import java.util.List;
 
@@ -33,11 +31,11 @@ public class EmployeeService {
 
 
     public EmployeeResponse createEmployee(EmployeeRequest request) {
-        if(employeeRepository.existsByUsername(request.getUsername()))
+        if (employeeRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USER_EXITED);
         Employee employee = employeeMapper.toEmployee(request);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        String encodedPassword =  passwordEncoder.encode(employee.getPassword());
+        String encodedPassword = passwordEncoder.encode(employee.getPassword());
         employee.setPassword(encodedPassword);
         employee.setRole(ERole.EMPLOYEE.name());
         employee.setStatus(EmployeeStatus.INACTIVE.name());
@@ -50,7 +48,7 @@ public class EmployeeService {
     }
 
     public EmployeeResponse updateEmployee(String employeeId, EmployeeUpdateRequest request) {
-        Employee employee =  employeeRepository.findById(employeeId)
+        Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
         employeeMapper.updateEmployee(employee, request);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
@@ -89,7 +87,7 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        if(passwordEncoder.matches(request.getOldPassword(), employee.getPassword())) {
+        if (passwordEncoder.matches(request.getOldPassword(), employee.getPassword())) {
             if (!isValidEnum(request.getRole(), ERole.class))
                 throw new AppException(ErrorCode.ROLE_NOT_MATCHED);
             if (!isValidEnum(request.getStatus(), EmployeeStatus.class))

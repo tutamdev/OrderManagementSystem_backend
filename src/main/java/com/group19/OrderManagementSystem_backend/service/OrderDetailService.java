@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,10 +43,10 @@ public class OrderDetailService {
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
 
         // Kiểm tra xem ca của order đã hoàn thành chưa
-        if(order.getEndedAt() != null) throw new AppException(ErrorCode.ORDER_COMPLETED);
+        if (order.getEndedAt() != null) throw new AppException(ErrorCode.ORDER_COMPLETED);
 
         // Kiểm tra xem ca của order hiện tại có đang mở không!
-        if(!order.getShift().isEnabled()) throw new AppException(ErrorCode.SHIFT_NOT_ACTIVE);
+        if (!order.getShift().isEnabled()) throw new AppException(ErrorCode.SHIFT_NOT_ACTIVE);
 
         // chỗ này thấy kì kì quá
         request.forEach(foodRequest -> {
@@ -54,7 +54,7 @@ public class OrderDetailService {
                     .orElseThrow(() -> new AppException(ErrorCode.FOOD_NOT_EXITED));
 
             // Nếu mà còn trong kho
-            if(food.isAvailability()) {
+            if (food.isAvailability()) {
                 OrderDetailKey orderDetailKey = OrderDetailKey.builder()
                         .orderId(orderId)
                         .foodId(food.getFoodId())
@@ -84,7 +84,6 @@ public class OrderDetailService {
      * Chỗ này là cập nhật order món
      * Nếu bàn cập nhật thêm món, nếu món đã tồn tại mà sửa thì tức là cập nhật quantity, note, nếu chưa thì tạo mới
      * Nếu quantity == 0 coi như là order món đó được xoá khỏi order
-     *
      */
 
     public List<OrderDetailResponse> updateOrderDetail(String orderId, List<OrderDetailRequest> request) {
@@ -167,7 +166,7 @@ public class OrderDetailService {
             }
         }
 
-        return totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP); // Làm tròn đến 2 chữ số thập phân
+        return totalPrice.setScale(2, RoundingMode.HALF_UP); // Làm tròn đến 2 chữ số thập phân
     }
 
     public void deleteOrderDetail(OrderDetailKey orderDetailId) {

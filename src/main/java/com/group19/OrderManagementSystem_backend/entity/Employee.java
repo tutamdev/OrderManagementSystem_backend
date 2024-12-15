@@ -1,13 +1,10 @@
 package com.group19.OrderManagementSystem_backend.entity;
 
-import com.group19.OrderManagementSystem_backend.utils.ERole;
-import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-
-import javax.management.relation.Role;
 
 @Entity
 @Getter
@@ -32,7 +29,7 @@ public class Employee {
 
     private String role;
     private String status;
-    
+
     @OneToMany(
             mappedBy = "employee",
             cascade = CascadeType.ALL,

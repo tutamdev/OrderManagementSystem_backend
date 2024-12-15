@@ -3,6 +3,7 @@ package com.group19.OrderManagementSystem_backend.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
 @Getter
 public enum ErrorCode {
     UNCATEGORIZE_EXCEPTION(9999, "Uncategorized exception :D", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -47,11 +48,11 @@ public enum ErrorCode {
     DISCOUNT_NOT_EXITED(1027, "Discount not exited", HttpStatus.BAD_REQUEST),
 
     ;
-    private int code;
-    private String message;
-    private HttpStatusCode statusCode;
+    private final int code;
+    private final String message;
+    private final HttpStatusCode statusCode;
 
-    ErrorCode (int code, String message, HttpStatusCode statusCode) {
+    ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;
         this.statusCode = statusCode;

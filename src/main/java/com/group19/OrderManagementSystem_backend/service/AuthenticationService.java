@@ -46,7 +46,7 @@ public class AuthenticationService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXITED));
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), employee.getPassword());
-        if(!isAuthenticated) throw new AppException(ErrorCode.UNAUTHORIZED);
+        if (!isAuthenticated) throw new AppException(ErrorCode.UNAUTHORIZED);
         String token = generateToken(employee);
         return AuthenticationResponse.builder()
                 .token(token)
@@ -108,10 +108,10 @@ public class AuthenticationService {
 
         boolean isVerified = signedJWT.verify(jwsVerifier);
 
-        if(!(isVerified && expirationTime.after(new Date())))
+        if (!(isVerified && expirationTime.after(new Date())))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        if(invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
+        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         return signedJWT;

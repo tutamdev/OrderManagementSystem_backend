@@ -39,6 +39,7 @@ public class DiscountController {
                 .result(discountService.createDiscount(discountRequest))
                 .build();
     }
+
     @PutMapping("")
     public ApiResponse<DiscountResponse> updateDiscount(@RequestBody DiscountRequest discountRequest) {
         return ApiResponse.<DiscountResponse>builder()
