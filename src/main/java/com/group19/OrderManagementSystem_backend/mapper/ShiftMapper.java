@@ -4,13 +4,13 @@ import com.group19.OrderManagementSystem_backend.dto.request.ShiftRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ShiftResponse;
 import com.group19.OrderManagementSystem_backend.entity.Shift;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ShiftMapper {
     Shift toShift(ShiftRequest shiftRequest);
+
     default ShiftResponse toShiftResponse(Shift shift) {
         if (shift == null) {
             return null;
@@ -23,5 +23,6 @@ public interface ShiftMapper {
         response.setEnabled(shift.isEnabled());
         return response;
     }
+
     List<ShiftResponse> toListShiftResponse(List<Shift> shifts);
 }

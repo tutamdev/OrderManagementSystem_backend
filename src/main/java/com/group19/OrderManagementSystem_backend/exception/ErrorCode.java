@@ -3,6 +3,7 @@ package com.group19.OrderManagementSystem_backend.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
 @Getter
 public enum ErrorCode {
     UNCATEGORIZE_EXCEPTION(9999, "Uncategorized exception :D", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -25,7 +26,6 @@ public enum ErrorCode {
     CATEGORY_NOT_EXITED(1017, "Category not exited", HttpStatus.BAD_REQUEST),
     FOOD_NOT_EXITED(1018, "food not exited", HttpStatus.BAD_REQUEST),
 
-
     // Thêm mã lỗi cho Order
     ORDER_NOT_FOUND(1019, "Order not found", HttpStatus.NOT_FOUND),
     ORDER_ALREADY_EXISTS(1020, "Order already exists", HttpStatus.BAD_REQUEST),
@@ -33,17 +33,26 @@ public enum ErrorCode {
     // Thêm mã lỗi cho OrderDetail
     ORDER_DETAIL_NOT_FOUND(1021, "Order detail not found", HttpStatus.NOT_FOUND),
     ORDER_DETAIL_ALREADY_EXISTS(1022, "Order detail already exists", HttpStatus.BAD_REQUEST),
+    ORDER_COMPLETED(1023, "Order completed", HttpStatus.BAD_REQUEST),
+    PASSWORD_NOT_MATCHED(1024, "Password not matched", HttpStatus.BAD_REQUEST),
+    ROLE_NOT_MATCHED(1025, "Role not matched", HttpStatus.BAD_REQUEST),
+    STATUS_NOT_MATCHED(1026, "Status not matched", HttpStatus.BAD_REQUEST),
+
 
     // Luc nao sua lai code nhe, moi entity minh cho mot status code rieng
     // vi du: Emloyee 1xxx, Order 2xxx, OrderDetail 3xxx gi do nha
-
+    FOOD_UNAVAILABLE(1024, "Food unavailable", HttpStatus.NOT_FOUND),
+    TABLE_UNAVAILABLE(1025, "Table unavailable", HttpStatus.NOT_FOUND),
+    DISCOUNT_EXITED(1026, "Discount exited", HttpStatus.BAD_REQUEST),
     ORDER_NOT_EXITED(2001, "Order not exited", HttpStatus.BAD_REQUEST),
-    ;
-    private int code;
-    private String message;
-    private HttpStatusCode statusCode;
+    DISCOUNT_NOT_EXITED(1027, "Discount not exited", HttpStatus.BAD_REQUEST),
 
-    ErrorCode (int code, String message, HttpStatusCode statusCode) {
+    ;
+    private final int code;
+    private final String message;
+    private final HttpStatusCode statusCode;
+
+    ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;
         this.statusCode = statusCode;

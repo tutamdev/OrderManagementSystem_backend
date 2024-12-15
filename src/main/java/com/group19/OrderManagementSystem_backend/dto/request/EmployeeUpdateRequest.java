@@ -1,4 +1,4 @@
-package com.group19.OrderManagementSystem_backend.dto.response;
+package com.group19.OrderManagementSystem_backend.dto.request;
 
 import lombok.*;
 
@@ -7,8 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeResponse {
-    private String id;
+public class EmployeeUpdateRequest {
     private String username;
     private String fullName;
     private String role;

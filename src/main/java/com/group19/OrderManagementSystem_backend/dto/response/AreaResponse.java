@@ -1,9 +1,6 @@
 package com.group19.OrderManagementSystem_backend.dto.response;
 
-import com.group19.OrderManagementSystem_backend.entity.Table;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter

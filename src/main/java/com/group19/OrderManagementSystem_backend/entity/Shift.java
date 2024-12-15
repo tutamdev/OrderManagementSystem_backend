@@ -1,13 +1,11 @@
 package com.group19.OrderManagementSystem_backend.entity;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -25,7 +23,7 @@ public class Shift {
     private LocalTime startTime;
     private LocalTime endTime;
     private boolean isEnabled;
-    
+
     @OneToMany(
             mappedBy = "shift",
             cascade = CascadeType.ALL,

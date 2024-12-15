@@ -1,11 +1,8 @@
 package com.group19.OrderManagementSystem_backend.controller;
 
-import com.group19.OrderManagementSystem_backend.dto.request.AreaRequest;
 import com.group19.OrderManagementSystem_backend.dto.request.CategoryRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
-import com.group19.OrderManagementSystem_backend.dto.response.AreaResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.CategoryResponse;
-import com.group19.OrderManagementSystem_backend.service.AreaService;
 import com.group19.OrderManagementSystem_backend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

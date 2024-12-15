@@ -24,10 +24,9 @@ import java.text.ParseException;
 @RequestMapping("/auth")
 public class AuthenticationController {
     @Autowired
-    private AuthenticationService authenticationService;
-
-    @Autowired
     EmployeeService employeeService;
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @PostMapping("/register")
     public ApiResponse<EmployeeResponse> createEmployee(@RequestBody EmployeeRequest request) {

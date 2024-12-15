@@ -3,6 +3,7 @@ package com.group19.OrderManagementSystem_backend.controller;
 import com.group19.OrderManagementSystem_backend.dto.request.TableRequest;
 import com.group19.OrderManagementSystem_backend.dto.response.ApiResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.AreaIdWithTablesResponse;
+import com.group19.OrderManagementSystem_backend.dto.response.OrderResponse;
 import com.group19.OrderManagementSystem_backend.dto.response.TableResponse;
 import com.group19.OrderManagementSystem_backend.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,13 @@ public class TableController {
                 .build();
     }
 
+    @GetMapping("/{tableId}/order")
+    public ApiResponse<OrderResponse> getOrderNotCompleteByTableId(@PathVariable("tableId") String tableId) {
+        return ApiResponse.<OrderResponse>builder()
+                .result(tableService.getOrderNotCompleteByTableId(tableId))
+                .build();
+    }
+
     @GetMapping("/area")
     public ApiResponse<List<AreaIdWithTablesResponse>> getAllAreaIdWithTables() {
         List<AreaIdWithTablesResponse> tables = tableService.getAllAreaIdWithTables();
@@ -31,6 +39,7 @@ public class TableController {
                 .result(tables)
                 .build();
     }
+
     @PostMapping("/area/{areaId}")
     public ApiResponse<List<TableResponse>> createTableByAreaId(@PathVariable("areaId") String areaId, @RequestBody TableRequest tableRequest) {
         List<TableResponse> tables = tableService.createTableByAreaId(areaId, tableRequest);

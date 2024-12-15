@@ -6,7 +6,6 @@ import com.group19.OrderManagementSystem_backend.dto.response.OrderDetailRespons
 import com.group19.OrderManagementSystem_backend.entity.OrderDetailKey;
 import com.group19.OrderManagementSystem_backend.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,26 +17,26 @@ public class OrderDetailController {
     @Autowired
     private OrderDetailService orderDetailService;
 
-    @PostMapping("")
-    public ApiResponse<OrderDetailResponse> createOrderDetail(@RequestBody OrderDetailRequest orderDetailRequest) {
-        return ApiResponse.<OrderDetailResponse>builder()
-                .result(orderDetailService.createOrderDetail(orderDetailRequest))
+    @PostMapping("/{orderId}")
+    public ApiResponse<List<OrderDetailResponse>> createOrderDetail(@PathVariable String orderId, @RequestBody List<OrderDetailRequest> orderDetailRequest) {
+        return ApiResponse.<List<OrderDetailResponse>>builder()
+                .result(orderDetailService.createOrderDetail(orderId, orderDetailRequest))
                 .message("Order detail created successfully")
                 .build();
     }
 
-    @GetMapping("/order/{order_id}")
-    public ApiResponse<List<OrderDetailResponse>> getOrderDetailsByOrderId(@PathVariable("order_id") String order_id) {
+    @GetMapping("/{orderId}")
+    public ApiResponse<List<OrderDetailResponse>> getOrderDetailsByOrderId(@PathVariable String orderId) {
         return ApiResponse.<List<OrderDetailResponse>>builder()
-                .result(orderDetailService.getOrderDetailsByOrderId(order_id))
+                .result(orderDetailService.getOrderDetailsByOrderId(orderId))
                 .message("Successfully retrieved order details")
                 .build();
     }
 
-    @PutMapping("/{orderDetailId}")
-    public ApiResponse<OrderDetailResponse> updateOrderDetail(@PathVariable("orderDetailId") OrderDetailKey orderDetailId, @RequestBody OrderDetailRequest orderDetailRequest) {
-        return ApiResponse.<OrderDetailResponse>builder()
-                .result(orderDetailService.updateOrderDetail(orderDetailId, orderDetailRequest))
+    @PutMapping("/{orderId}")
+    public ApiResponse<List<OrderDetailResponse>> updateOrderDetail(@PathVariable("orderId") String orderId, @RequestBody List<OrderDetailRequest> orderDetailRequest) {
+        return ApiResponse.<List<OrderDetailResponse>>builder()
+                .result(orderDetailService.updateOrderDetail(orderId, orderDetailRequest))
                 .message("Order detail updated successfully")
                 .build();
     }

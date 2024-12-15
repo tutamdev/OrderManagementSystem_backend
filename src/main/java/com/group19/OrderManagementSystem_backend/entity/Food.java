@@ -1,9 +1,10 @@
 package com.group19.OrderManagementSystem_backend.entity;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -22,7 +23,7 @@ public class Food {
     private String foodName;
 
     @Column(name = "food_price")
-    private long foodPrice;
+    private BigDecimal foodPrice;
 
     @Column(name = "description")
     private String description;
