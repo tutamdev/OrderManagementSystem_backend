@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -148,8 +149,23 @@ public class OrderService {
 
     public List<OrderResponse> getAllOrderByShiftIdCompleted(String shiftId) {
         List<Order> orders = orderRepository.findAllByShift_ShiftIdAndEndedAtIsNotNull(shiftId);
-        return orderMapper.toListOrderResponse(orders);
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        for (Order order : orders) {
+            double discountValue = 0;
+            if (order.getDiscount() == null) {
+                discountValue = 0;
+            } else if (Objects.equals(order.getDiscount().getDiscountType(), DiscountType.FIXED.name())) {
+                discountValue = order.getDiscount().getDiscountValue();
+            } else if (Objects.equals(order.getDiscount().getDiscountType(), DiscountType.PERCENT.name())) {
+                discountValue = (order.getTotalPrice() * order.getDiscount().getDiscountValue()) / 100;
+            }
+            OrderResponse orderResponse = orderMapper.toOrderResponse(order);
+            orderResponse.setDiscountValue(discountValue);
+            orderResponses.add(orderResponse);
+        }
+        return orderResponses;
     }
+
 
 
     public void deleteOrder(String orderId) {
